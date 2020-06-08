@@ -48,6 +48,11 @@ module.exports = function (sequelize, DataTypes) {
     transactionTime: {
       type: DataTypes.BIGINT,
     },
+    baseCurrency :{
+      type: DataTypes.STRING(3),
+      allowNull:false,
+      defaultValue:"USD"
+    }
   });
   return User;
 };

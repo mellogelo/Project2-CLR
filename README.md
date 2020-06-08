@@ -25,3 +25,6 @@ The environmental variables should be configured for the proper operation of the
 > - **USE_HTTPS**: If set to *true* the HTTP server will run using SSL and will use the HTTPS server port
 > - **SERVER_PORT_HTTP**: HTML server port for HTTP protocol. Default is *8080*
 > - **SERVER_PORT_HTTPS**: HTML server port for HTTPS protocol. Default is *443*
+
+
+https://stackoverflow.com/questions/18304504/create-or-update-sequelize
