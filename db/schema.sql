@@ -12,6 +12,7 @@ create table currencys (
     code varchar(3),
     country varchar(255),
     symbolUnicodeHex varchar(32),
+    isBaseCurrency boolean default false
     Primary Key(uuid)
 );
 

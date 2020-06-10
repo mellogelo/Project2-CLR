@@ -2,7 +2,7 @@ const { Op } = require("sequelize");
 const Sequelize = require("sequelize");
 
 module.exports = function (sequelize, DataTypes) {
-  var User = sequelize.define("User", {
+  var Account = sequelize.define("Account", {
     uuid: {
       type: DataTypes.UUID,
       defaultValue: Sequelize.UUIDV4,
@@ -54,5 +54,5 @@ module.exports = function (sequelize, DataTypes) {
       defaultValue:"USD"
     }
   });
-  return User;
+  return Account;
 };
