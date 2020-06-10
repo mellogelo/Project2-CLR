@@ -9,7 +9,7 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true,
     },
-    userUUID: { // hasMany
+    accountUUID: { // hasMany
       type: DataTypes.UUID,
       allowNull: false,
     },

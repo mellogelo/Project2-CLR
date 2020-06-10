@@ -28,6 +28,11 @@ module.exports = function (sequelize, DataTypes) {
     symbolUnicodeHex: {
       type: DataTypes.STRING(255),
     },
+    isBaseCurrency: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
   });
   return Currency;
 };
