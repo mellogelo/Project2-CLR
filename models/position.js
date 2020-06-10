@@ -2,28 +2,26 @@ const { Op } = require("sequelize");
 const Sequelize = require("sequelize");
 
 module.exports = function (sequelize, DataTypes) {
-  var ExchangeRate = sequelize.define("ExchangeRate", {
+  var Position = sequelize.define("Position", {
     uuid: {
       type: DataTypes.UUID,
       defaultValue: Sequelize.UUIDV4,
       allowNull: false,
       primaryKey: true,
     },
-    // Base currency. One of USD, GBP, EUR, JPY
-    baseCurrencyUUID: {
-      type: DataTypes.UUID, // hasMany
+    userUUID: { // hasMany
+      type: DataTypes.UUID,
       allowNull: false,
     },
-    // target currency. This is the currency that the rate applies to
-    targetCurrencyUUID: {
-      type: DataTypes.UUID, // hasMany
+    currencyUUID: { // hasMany
+      type: DataTypes.UUID,
       allowNull: false,
     },
-    rate: {
+    amount: {
       type: DataTypes.DECIMAL,
       allowNull: false,
-      defaultValue: 1.0,
+      defaultValue: 0.0,
     },
   });
-  return ExchangeRate;
+  return Position;
 };
