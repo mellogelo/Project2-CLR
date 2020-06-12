@@ -8,11 +8,13 @@ app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 app.use(express.static('public'));
 
+app.engine("handlebars", handlebars({defaultLayout:"main"}));
+app.set("view engine","handlebars");
 
-var env = process.env.NODE_ENV || "development";
+require("./routes/api-routes")(app)
+require('./routes/html-routes')(app)
 
-var config = require(__dirname + "/config/config.js")[env];
+app.listen(port, ()=> console.log('yay working!'))
 
-console.log(config);
-
-app.listen(PORT, ()=> console.log('yay working!'))
+// Routes
+// =============================================================

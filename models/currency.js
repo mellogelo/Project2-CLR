@@ -3,7 +3,7 @@ const Sequelize = require("sequelize");
 
 // https://www.xe.com/symbols.php
 module.exports = function (sequelize, DataTypes) {
-  var CurrentHolding = sequelize.define("Currency", {
+  var Currency = sequelize.define("Currency", {
     uuid: {
       type: DataTypes.UUID,
       defaultValue: Sequelize.UUIDV4,
