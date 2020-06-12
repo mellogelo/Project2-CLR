@@ -1,6 +1,6 @@
 -- Set database to the correct one
 USE forexDB;
-
+-- https://www.xe.com/symbols.php
 -- Insert data into the CURRENCYS table
 insert into
     currencys (uuid, country, name, code, symbolUnicodeHex)

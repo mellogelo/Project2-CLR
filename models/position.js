@@ -9,19 +9,24 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true,
     },
-    userUUID: { // hasMany
-      type: DataTypes.UUID,
-      allowNull: false,
-    },
-    currencyUUID: { // hasMany
-      type: DataTypes.UUID,
-      allowNull: false,
-    },
+    // accountUUID: { // hasMany
+    //   type: DataTypes.UUID,
+    //   allowNull: false,
+    // },
+    // currencyUUID: { // hasMany
+    //   type: DataTypes.UUID,
+    //   allowNull: false,
+    // },
     amount: {
       type: DataTypes.DECIMAL,
       allowNull: false,
       defaultValue: 0.0,
     },
-  });
+  },
+  {
+    // Options https://sequelize.org/v3/docs/models-definition/#configuration
+    timestamps: false,
+  },
+);
   return Position;
 };
