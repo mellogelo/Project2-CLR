@@ -63,7 +63,7 @@ function runServer() {
         },
         app
       )
-      .listen(serverPort, function () {
+      .listen(serverPort, serverHost, function () {
         let url = `${httpProtocol}://${serverHost}:${serverPort}`;
         console.log(`Server listening on port ${serverPort}. Go to ${url}`);
       });

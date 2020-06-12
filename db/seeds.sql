@@ -3,9 +3,6 @@ USE forexDB;
 -- https://www.xe.com/symbols.php
 -- Insert data into the CURRENCYS table
 -- Set database to the correct one
-USE forexDB;
--- https://www.xe.com/symbols.php
--- Insert data into the CURRENCIES table
 insert into
     currencies (country, name, code, symbolUnicodeHex,isBaseCurrency)
 values
@@ -117,3 +114,27 @@ values
 ('Viet Nam','Dong','VND','20ab',false),
 ('Yemen','Rial','YER','fdfc',false),
 ('Zimbabwe','Dollar','ZWD','5a,24',false);
+
+
+insert into accounts (uuid,firstName,lastName,email,password,baseCurrencyCode)
+values
+('f4c4c4af-61f9-405f-b9b2-f7ae233dcac0','Shona','Macfarlane',  'shona.macfarlane@gmail.com',  'jVtE9CYW','USD'),
+('2d99dbb3-da94-401d-8853-443792d51612','Rumaisa','Broadhurst','rumaisa.broadhurst@gmail.com','mE6Vwvxd','JPY'),
+('a63a2aea-3261-4313-a8ce-a29ba75311a3','Darien','Kavanagh',   'darien.kavanagh@gmail.com',   'E6J8P4Kj','USD'),
+('beeb4a56-87ee-436c-a251-16760cb860e4','Kristen','Marriott',  'kristen.marriott@gmail.com',  'LRHk7wfu','JPY'),
+('d0911f01-fdd7-439e-90d0-75085f23f72b','Flora','Weber',       'flora.weber@gmail.com',       'TRpgJ5zH','USD'),
+('e84c6605-326f-432a-9b03-73554c7b5109','Chaya','Petty',       'chaya.petty@gmail.com',       's7DkmXqY','EUR'),
+('25f105a9-66f5-4ff7-899e-f431a4320653','Joshua','Drew',       'joshua.drew@gmail.com',       '3ZWABQqG','USD'),
+('1c77f615-0112-4928-a66d-c09f8e7f1fe6','Darci','Farley',      'darci.farley@gmail.com',      'cnmQU3GD','EUR'),
+('8c6f81b8-0716-4694-ade6-0ad679629337','Rylee','Mcfarland',   'rylee.mcfarland@gmail.com',   'XpJu5mw3','JPY'),
+('4cfacc1b-089e-4f1e-a07c-cc03b928059f','Mikail','Rodriguez',  'mikail.rodriguez@gmail.com',  'Da6LkGt3','EUR'),
+('7d83decc-61b3-4736-b333-0fe9e1227929','Robson','Roman',      'robson.roman@gmail.com',      'WXvHD2JK','USD'),
+('e41156e9-e590-4a15-8a0e-034461b717a6','Lylah','Dougherty',   'lylah.dougherty@gmail.com',   'HVWYb5r6','GBP'),
+('8e30e2d6-c07e-4e36-981b-12b62615532f','Abid','Hail',         'abid.hail@gmail.com',         'FKvgQ3PH','GBP'),
+('3a3612f0-5c9c-429b-8b03-a4300f67f651','Sanjeev','Guzman',    'sanjeev.guzman@gmail.com',    'sYGa6kfv','JPY'),
+('d95141f6-ab87-4da1-93df-a9b25afec86c','Lillie','Greer',      'lillie.greer@gmail.com',      'pXz4KSF6','GBP'),
+('2635fa73-e404-4e56-bd67-aa9cdb4e196c','Baxter','Murray',     'baxter.murray@gmail.com',     'xmg3CRSK','USD'),
+('051f966f-736d-4219-88f3-376d1aee8bf6','Cavan','Hills',       'cavan.hills@gmail.com',       '7XvP5Lzc','USD'),
+('1c3a32ac-b66f-4481-90cb-396640323377','Chay','Delgado',      'chay.delgado@gmail.com',      'QsAq98P5','HKD'),
+('c8b4a260-febc-40ce-b085-b43769789606','Maaria','Sharpe',     'maaria.sharpe@gmail.com',     '7bdFkvn5','HKD'),
+('5de3d00e-02aa-4143-95f2-abe752f8aac1','Ayesha','Arnold',     'ayesha.arnold@gmail.com',     '52tDCjKk','HKD');
