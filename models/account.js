@@ -60,6 +60,10 @@ module.exports = function (sequelize, DataTypes) {
       //   references: "Currencies",
       //   referencesKey: "uuid",
       // },
+      initialAmount: {
+        type: DataTypes.DECIMAL(20, 10),
+        allowNull: false,
+      },
     },
     {
       // Options https://sequelize.org/v3/docs/models-definition/#configuration

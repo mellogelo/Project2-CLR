@@ -116,32 +116,33 @@ values
 ('Zimbabwe','Dollar','ZWD','5a,24',false);
 
 
-insert into accounts (uuid,firstName,lastName,email,password,baseCurrencyCode)
+insert into accounts (uuid,firstName,lastName,email,password,baseCurrencyCode,initialAmount)
 values
-('f4c4c4af-61f9-405f-b9b2-f7ae233dcac0','Shona','Macfarlane',  'shona.macfarlane@gmail.com',  'jVtE9CYW','USD'),
-('2d99dbb3-da94-401d-8853-443792d51612','Rumaisa','Broadhurst','rumaisa.broadhurst@gmail.com','mE6Vwvxd','JPY'),
-('a63a2aea-3261-4313-a8ce-a29ba75311a3','Darien','Kavanagh',   'darien.kavanagh@gmail.com',   'E6J8P4Kj','USD'),
-('beeb4a56-87ee-436c-a251-16760cb860e4','Kristen','Marriott',  'kristen.marriott@gmail.com',  'LRHk7wfu','JPY'),
-('d0911f01-fdd7-439e-90d0-75085f23f72b','Flora','Weber',       'flora.weber@gmail.com',       'TRpgJ5zH','USD'),
-('e84c6605-326f-432a-9b03-73554c7b5109','Chaya','Petty',       'chaya.petty@gmail.com',       's7DkmXqY','EUR'),
-('25f105a9-66f5-4ff7-899e-f431a4320653','Joshua','Drew',       'joshua.drew@gmail.com',       '3ZWABQqG','USD'),
-('1c77f615-0112-4928-a66d-c09f8e7f1fe6','Darci','Farley',      'darci.farley@gmail.com',      'cnmQU3GD','EUR'),
-('8c6f81b8-0716-4694-ade6-0ad679629337','Rylee','Mcfarland',   'rylee.mcfarland@gmail.com',   'XpJu5mw3','JPY'),
-('4cfacc1b-089e-4f1e-a07c-cc03b928059f','Mikail','Rodriguez',  'mikail.rodriguez@gmail.com',  'Da6LkGt3','EUR'),
-('7d83decc-61b3-4736-b333-0fe9e1227929','Robson','Roman',      'robson.roman@gmail.com',      'WXvHD2JK','USD'),
-('e41156e9-e590-4a15-8a0e-034461b717a6','Lylah','Dougherty',   'lylah.dougherty@gmail.com',   'HVWYb5r6','GBP'),
-('8e30e2d6-c07e-4e36-981b-12b62615532f','Abid','Hail',         'abid.hail@gmail.com',         'FKvgQ3PH','GBP'),
-('3a3612f0-5c9c-429b-8b03-a4300f67f651','Sanjeev','Guzman',    'sanjeev.guzman@gmail.com',    'sYGa6kfv','JPY'),
-('d95141f6-ab87-4da1-93df-a9b25afec86c','Lillie','Greer',      'lillie.greer@gmail.com',      'pXz4KSF6','GBP'),
-('2635fa73-e404-4e56-bd67-aa9cdb4e196c','Baxter','Murray',     'baxter.murray@gmail.com',     'xmg3CRSK','USD'),
-('051f966f-736d-4219-88f3-376d1aee8bf6','Cavan','Hills',       'cavan.hills@gmail.com',       '7XvP5Lzc','USD'),
-('1c3a32ac-b66f-4481-90cb-396640323377','Chay','Delgado',      'chay.delgado@gmail.com',      'QsAq98P5','HKD'),
-('c8b4a260-febc-40ce-b085-b43769789606','Maaria','Sharpe',     'maaria.sharpe@gmail.com',     '7bdFkvn5','HKD'),
-('5de3d00e-02aa-4143-95f2-abe752f8aac1','Ayesha','Arnold',     'ayesha.arnold@gmail.com',     '52tDCjKk','HKD');
+('f4c4c4af-61f9-405f-b9b2-f7ae233dcac0','Shona','Macfarlane',  'shona.macfarlane@gmail.com',  'jVtE9CYW','USD',10000),
+('2d99dbb3-da94-401d-8853-443792d51612','Rumaisa','Broadhurst','rumaisa.broadhurst@gmail.com','mE6Vwvxd','JPY',1068001.8113),
+('a63a2aea-3261-4313-a8ce-a29ba75311a3','Darien','Kavanagh',   'darien.kavanagh@gmail.com',   'E6J8P4Kj','USD',10000),
+('beeb4a56-87ee-436c-a251-16760cb860e4','Kristen','Marriott',  'kristen.marriott@gmail.com',  'LRHk7wfu','JPY',1068001.8113),
+('d0911f01-fdd7-439e-90d0-75085f23f72b','Flora','Weber',       'flora.weber@gmail.com',       'TRpgJ5zH','USD',10000),
+('e84c6605-326f-432a-9b03-73554c7b5109','Chaya','Petty',       'chaya.petty@gmail.com',       's7DkmXqY','EUR',8860.7191),
+('25f105a9-66f5-4ff7-899e-f431a4320653','Joshua','Drew',       'joshua.drew@gmail.com',       '3ZWABQqG','USD',10000),
+('1c77f615-0112-4928-a66d-c09f8e7f1fe6','Darci','Farley',      'darci.farley@gmail.com',      'cnmQU3GD','EUR',8860.7191),
+('8c6f81b8-0716-4694-ade6-0ad679629337','Rylee','Mcfarland',   'rylee.mcfarland@gmail.com',   'XpJu5mw3','JPY',1068001.8113),
+('4cfacc1b-089e-4f1e-a07c-cc03b928059f','Mikail','Rodriguez',  'mikail.rodriguez@gmail.com',  'Da6LkGt3','EUR',8860.7191),
+('7d83decc-61b3-4736-b333-0fe9e1227929','Robson','Roman',      'robson.roman@gmail.com',      'WXvHD2JK','USD',10000),
+('e41156e9-e590-4a15-8a0e-034461b717a6','Lylah','Dougherty',   'lylah.dougherty@gmail.com',   'HVWYb5r6','GBP',7963.4525),
+('8e30e2d6-c07e-4e36-981b-12b62615532f','Abid','Hail',         'abid.hail@gmail.com',         'FKvgQ3PH','GBP',7963.4525),
+('3a3612f0-5c9c-429b-8b03-a4300f67f651','Sanjeev','Guzman',    'sanjeev.guzman@gmail.com',    'sYGa6kfv','JPY',1068001.8113),
+('d95141f6-ab87-4da1-93df-a9b25afec86c','Lillie','Greer',      'lillie.greer@gmail.com',      'pXz4KSF6','GBP',7963.4525),
+('2635fa73-e404-4e56-bd67-aa9cdb4e196c','Baxter','Murray',     'baxter.murray@gmail.com',     'xmg3CRSK','USD',10000),
+('051f966f-736d-4219-88f3-376d1aee8bf6','Cavan','Hills',       'cavan.hills@gmail.com',       '7XvP5Lzc','USD',10000),
+('1c3a32ac-b66f-4481-90cb-396640323377','Chay','Delgado',      'chay.delgado@gmail.com',      'QsAq98P5','HKD',77503.4043),
+('c8b4a260-febc-40ce-b085-b43769789606','Maaria','Sharpe',     'maaria.sharpe@gmail.com',     '7bdFkvn5','HKD',77503.4043),
+('5de3d00e-02aa-4143-95f2-abe752f8aac1','Ayesha','Arnold',     'ayesha.arnold@gmail.com',     '52tDCjKk','HKD',77503.4043);
 
 
 insert into exchangerates (uuid,baseCurrencyCode,targetCurrencyCode,rate) 
 values
+-- https://api.currencyscoop.com/v1/latest?api_key=da6c0dbe55742620a74a75ce1116bc12&base=GBP&symbols=AFN,ALL,ANG,ARS,AUD,AWG,AZN,BBD,BGN,BMD,BND,BOB,BRL,BSD,BWP,BYN,BZD,CAD,CHF,CLP,CNY,COP,CRC,CUP,CZK,DKK,DOP,EGP,EUR,FJD,FKP,GBP,GGP,GHS,GIP,GTQ,GYD,HKD,HNL,HRK,HUF,IDR,ILS,IMP,INR,IRR,ISK,JEP,JMD,JPY,KGS,KHR,KPW,KRW,KYD,KZT,LAK,LBP,LKR,LRD,MKD,MNT,MUR,MXN,MYR,MZN,NAD,NGN,NIO,NOK,NPR,NZD,OMR,PAB,PEN,PHP,PKR,PLN,PYG,QAR,RON,RSD,RUB,SAR,SBD,SCR,SEK,SGD,SHP,SOS,SRD,SVC,SYP,THB,TRY,TTD,TVD,TWD,UAH,USD,UYU,UZS,VEF,VND,XCD,YER,ZAR,ZWD
 ('f1dafc95-9505-4d75-9383-8f81dd988772', 'GBP','AFN', 96.94477095),
 ('eea3c8d6-251b-479f-8d45-7bacecd9d749', 'GBP','ALL', 137.10305853),
 ('a262e382-bb60-4267-bd80-31b22e3e4935', 'GBP','ANG', 2.24778848),
@@ -250,6 +251,7 @@ values
 ('25522e37-c693-49ba-81d5-37754f28017e', 'GBP','YER', 314.39172355),
 ('0d6dfc03-218f-4cd7-ab0a-5cfbad676207', 'GBP','ZAR', 21.70806411),
 ('059fbac0-05f3-40b5-a0dc-e90e69f3d936', 'GBP','ZWD', 454.45112459),
+-- https://api.currencyscoop.com/v1/latest?api_key=da6c0dbe55742620a74a75ce1116bc12&base=HKD&symbols=AFN,ALL,ANG,ARS,AUD,AWG,AZN,BBD,BGN,BMD,BND,BOB,BRL,BSD,BWP,BYN,BZD,CAD,CHF,CLP,CNY,COP,CRC,CUP,CZK,DKK,DOP,EGP,EUR,FJD,FKP,GBP,GGP,GHS,GIP,GTQ,GYD,HKD,HNL,HRK,HUF,IDR,ILS,IMP,INR,IRR,ISK,JEP,JMD,JPY,KGS,KHR,KPW,KRW,KYD,KZT,LAK,LBP,LKR,LRD,MKD,MNT,MUR,MXN,MYR,MZN,NAD,NGN,NIO,NOK,NPR,NZD,OMR,PAB,PEN,PHP,PKR,PLN,PYG,QAR,RON,RSD,RUB,SAR,SBD,SCR,SEK,SGD,SHP,SOS,SRD,SVC,SYP,THB,TRY,TTD,TVD,TWD,UAH,USD,UYU,UZS,VEF,VND,XCD,YER,ZAR,ZWD
 ('f6ec84bc-2aa0-43c4-8b8f-bbab760706d6', 'HKD','AFN', 9.96104732),
 ('e9ee50cd-51b1-421e-a2b9-b5d631370c77', 'HKD','ALL', 14.08729981),
 ('3bf6a625-9900-4211-9792-48b9cf38ddc8', 'HKD','ANG', 0.23095962),
@@ -358,6 +360,7 @@ values
 ('d0cd5805-abf0-42ea-821e-af82f8648210', 'HKD','YER', 32.30365912),
 ('ab37ee1b-7f7a-4101-841c-0f1ed559ab68', 'HKD','ZAR', 2.23049734),
 ('2b45e75d-75b0-4372-a28a-a30da8461163', 'HKD','ZWD', 46.69472226),
+-- https://api.currencyscoop.com/v1/latest?api_key=da6c0dbe55742620a74a75ce1116bc12&base=EUR&symbols=AFN,ALL,ANG,ARS,AUD,AWG,AZN,BBD,BGN,BMD,BND,BOB,BRL,BSD,BWP,BYN,BZD,CAD,CHF,CLP,CNY,COP,CRC,CUP,CZK,DKK,DOP,EGP,EUR,FJD,FKP,GBP,GGP,GHS,GIP,GTQ,GYD,HKD,HNL,HRK,HUF,IDR,ILS,IMP,INR,IRR,ISK,JEP,JMD,JPY,KGS,KHR,KPW,KRW,KYD,KZT,LAK,LBP,LKR,LRD,MKD,MNT,MUR,MXN,MYR,MZN,NAD,NGN,NIO,NOK,NPR,NZD,OMR,PAB,PEN,PHP,PKR,PLN,PYG,QAR,RON,RSD,RUB,SAR,SBD,SCR,SEK,SGD,SHP,SOS,SRD,SVC,SYP,THB,TRY,TTD,TVD,TWD,UAH,USD,UYU,UZS,VEF,VND,XCD,YER,ZAR,ZWD
 ('6a3a8262-5a4f-4269-accc-42457dc5720b', 'EUR','AFN', 87.12781278),
 ('23c279d3-2fa2-4a33-8386-0d751051a7bb', 'EUR','ALL', 123.21953518),
 ('8e4fbdd3-df21-40ff-89f2-78fb8c9237a4', 'EUR','ANG', 2.02016976),
@@ -466,6 +469,7 @@ values
 ('6fb7720d-19e4-41c0-b755-112be6cb6ca5', 'EUR','YER', 282.55534527),
 ('7bb7b7df-d63f-4e3c-a068-ea215f607c0d', 'EUR','ZAR', 19.5098315),
 ('635a4e38-c501-434b-8eaa-3c874ea41bb5', 'EUR','ZWD', 408.43185363),
+-- https://api.currencyscoop.com/v1/latest?api_key=da6c0dbe55742620a74a75ce1116bc12&base=USD&symbols=AFN,ALL,ANG,ARS,AUD,AWG,AZN,BBD,BGN,BMD,BND,BOB,BRL,BSD,BWP,BYN,BZD,CAD,CHF,CLP,CNY,COP,CRC,CUP,CZK,DKK,DOP,EGP,EUR,FJD,FKP,GBP,GGP,GHS,GIP,GTQ,GYD,HKD,HNL,HRK,HUF,IDR,ILS,IMP,INR,IRR,ISK,JEP,JMD,JPY,KGS,KHR,KPW,KRW,KYD,KZT,LAK,LBP,LKR,LRD,MKD,MNT,MUR,MXN,MYR,MZN,NAD,NGN,NIO,NOK,NPR,NZD,OMR,PAB,PEN,PHP,PKR,PLN,PYG,QAR,RON,RSD,RUB,SAR,SBD,SCR,SEK,SGD,SHP,SOS,SRD,SVC,SYP,THB,TRY,TTD,TVD,TWD,UAH,USD,UYU,UZS,VEF,VND,XCD,YER,ZAR,ZWD
 ('7afe69fd-ec38-48cf-885e-23868c7bc74c', 'USD','AFN', 77.20150772),
 ('a8c9fa82-fc98-4f1c-bd40-6f8e09ae1026', 'USD','ALL', 109.18136923),
 ('c8b3830d-0e0a-4425-99e8-5ecf3af85987', 'USD','ANG', 1.79001568),
@@ -574,6 +578,7 @@ values
 ('129c6d71-9f2f-41b6-9419-bf6b9eef77aa', 'USD','YER', 250.36435525),
 ('3da33235-92c6-4417-b3e5-a3a4e3619a18', 'USD','ZAR', 17.28711371),
 ('dff90da0-a5c1-401c-afc0-c8031a635363', 'USD','ZWD', 361.8999937),
+-- https://api.currencyscoop.com/v1/latest?api_key=da6c0dbe55742620a74a75ce1116bc12&base=JPY&symbols=AFN,ALL,ANG,ARS,AUD,AWG,AZN,BBD,BGN,BMD,BND,BOB,BRL,BSD,BWP,BYN,BZD,CAD,CHF,CLP,CNY,COP,CRC,CUP,CZK,DKK,DOP,EGP,EUR,FJD,FKP,GBP,GGP,GHS,GIP,GTQ,GYD,HKD,HNL,HRK,HUF,IDR,ILS,IMP,INR,IRR,ISK,JEP,JMD,JPY,KGS,KHR,KPW,KRW,KYD,KZT,LAK,LBP,LKR,LRD,MKD,MNT,MUR,MXN,MYR,MZN,NAD,NGN,NIO,NOK,NPR,NZD,OMR,PAB,PEN,PHP,PKR,PLN,PYG,QAR,RON,RSD,RUB,SAR,SBD,SCR,SEK,SGD,SHP,SOS,SRD,SVC,SYP,THB,TRY,TTD,TVD,TWD,UAH,USD,UYU,UZS,VEF,VND,XCD,YER,ZAR,ZWD
 ('1055d422-b3fe-4d4e-82f9-543a2bc92d64', 'JPY','AFN', 0.72285933),
 ('a1b1cc6b-f28b-48f8-8bc5-e66c5f508602', 'JPY','ALL', 1.02229573),
 ('9673cc2e-e4ad-4711-ad69-d5f7732a317b', 'JPY','ANG', 0.01676042),
