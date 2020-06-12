@@ -2,57 +2,74 @@ const { Op } = require("sequelize");
 const Sequelize = require("sequelize");
 
 module.exports = function (sequelize, DataTypes) {
-  var Account = sequelize.define("Account", {
-    uuid: {
-      type: DataTypes.UUID,
-      defaultValue: Sequelize.UUIDV4,
-      allowNull: false,
-      primaryKey: true,
-    },
-    firstName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        len: [1],
+  var Account = sequelize.define(
+    "Account",
+    {
+      uuid: {
+        type: DataTypes.UUID,
+        defaultValue: Sequelize.UUIDV4,
+        allowNull: false,
+        primaryKey: true,
       },
-    },
-    lastName: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-      validate: {
-        len: [1],
+      firstName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          len: [1],
+        },
       },
-    },
-    email: {
-      type: DataTypes.STRING(1023),
-      allowNull: false,
-      validate: {
-        isEmail: true,
+      lastName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          len: [1],
+        },
       },
-    },
-    fullName: {
-      type: DataTypes.VIRTUAL,
-      get() {
-        return `${this.firstName} ${this.lastName}`;
+      email: {
+        type: DataTypes.STRING(1023),
+        allowNull: false,
+        validate: {
+          isEmail: true,
+        },
       },
-      set(value) {
-        throw new Error("Do not try to set the `fullName` value!");
+      fullName: {
+        type: DataTypes.VIRTUAL,
+        get() {
+          return `${this.firstName} ${this.lastName}`;
+        },
+        set(value) {
+          throw new Error("Do not try to set the `fullName` value!");
+        },
       },
+      lastLoginTime: {
+        type: DataTypes.BIGINT,
+      },
+      sessionUUID: {
+        type: DataTypes.UUID,
+      },
+      transactionTime: {
+        type: DataTypes.BIGINT,
+      },
+      password: {
+        type: DataTypes.STRING(1023),
+        allowNull: false,
+        len: [4],
+      },
+      // baseCurrencyUUID: {
+      //   type: DataTypes.UUID,
+      //   references: "Currencies",
+      //   referencesKey: "uuid",
+      // },
     },
-    lastLoginTime: {
-      type: DataTypes.BIGINT,
-    },
-    sessionUUID: {
-      type: DataTypes.UUID,
-    },
-    transactionTime: {
-      type: DataTypes.BIGINT,
-    },
-    baseCurrency :{
-      type: DataTypes.STRING(3),
-      allowNull:false,
-      defaultValue:"USD"
+    {
+      // Options https://sequelize.org/v3/docs/models-definition/#configuration
+      timestamps: false,
     }
-  });
+  );
+  Account.associate = function (models) {
+    Account.hasMany(models.Position, { foreignKey: "accountUUID" });
+    Account.hasMany(models.Transaction, { foreignKey: "accountUUID" });
+  };
+
   return Account;
 };
