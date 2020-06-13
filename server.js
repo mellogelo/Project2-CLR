@@ -6,6 +6,7 @@ require("dotenv").config();
 const enigma = require("./security/newencryption");
 const handlebars = require("express-handlebars");
 const axios = require("axios");
+const utilities = require("./utilities");
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
