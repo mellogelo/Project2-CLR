@@ -75,5 +75,9 @@ module.exports = function (sequelize, DataTypes) {
     Account.hasMany(models.Transaction, { foreignKey: "accountUUID" });
   };
 
+  // add hook (trigger) to update initial amount based on exchange rate
+  // Account.beforeCreate(async (account,options) => {
+    
+  // });
   return Account;
 };
