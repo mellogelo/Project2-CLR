@@ -3,7 +3,7 @@ DROP DATABASE IF EXISTS forexDB;
 -- Creates the forexDB database
 CREATE DATABASE forexDB;
 -- 
-use forexdb;
+use forexDB;
 --
 
 -- create table currencys (
@@ -12,7 +12,7 @@ use forexdb;
 --     code varchar(3),
 --     country varchar(255),
 --     symbolUnicodeHex varchar(32),
---     isBaseCurrency boolean default false
+--     isBaseCurrency boolean default false,
 --     Primary Key(uuid)
 -- );
 
