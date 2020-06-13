@@ -13,13 +13,11 @@
 <body>
     <div class="main">
     <!---------------------- Nav ---------------------->
-    <nav class="navbar navbar-light bg-light">
+    <nav class="navbar"> <!--navbar-light bg-light-->
         <a class="navbar-brand" href="#">
-            <img src="/docs/4.5/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top"
-                alt="" loading="lazy">
-            TradeForex
+            <img src="imgs/trade-forex.svg" width="250" height="45" class="d-inline-block align-top" alt="TradeForex" loading="lazy">
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
@@ -31,14 +29,21 @@
                 <a class="nav-link" href="#">Logout</a>
               </li>
             </ul>
-          </div>
+          </div> -->
     </nav>
+
+    
 
     <!---------------------- Columns ---------------------->
     <div class="container">
+        <div class="intro">
+            <h5>Welcome to Tradeforex</h5>
+            <p>Test your trading skills by trading foreign currencies.</p>
+           
+        </div>
         <div class="row">
             <!-- Column ONE -->
-            <div class="col-8">
+            <div class="col-6">
                 <div class="columns">
                     <form class="create-form" method="GET" action="">
 
@@ -77,10 +82,26 @@
                         </form>
                     </div>
 
+                    <div class="row icon-row">
+                        <div class="col icon-col">
+                            <img src="imgs/tradeforex-icon-02.svg" class="img-fluid" alt="Responsive image">
+                            <p>Enter Amount</p>
+                        </div>
+                        <div class="col-5 icon-col">
+                            <img src="imgs/tradeforex-icon-03.svg" class="img-fluid" alt="Responsive image">
+                            <p>Choose Currency</p>
+                        </div>
+                        <div class="col icon-col">
+                            <img src="imgs/tradeforex-icon-04.svg" class="img-fluid" alt="Responsive image">
+                            <p>Buy!</p>
+                        </div>
+                        </div>
+
+
                 </div>
                 
                 <div class="columns">
-                    <div class="col-4 columns">
+                    <div class="col-6 columns">
                         <div id="userBalance">
                          <h5 id="activeBalance">
                              Balance
