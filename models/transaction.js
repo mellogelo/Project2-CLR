@@ -31,11 +31,11 @@ module.exports = function (sequelize, DataTypes) {
       //   allowNull: false,
       // },
       fromAmount: {
-        type: DataTypes.DECIMAL,
+        type: DataTypes.DECIMAL(20,10),
         allowNull: false,
       },
       toAmount: {
-        type: DataTypes.DECIMAL,
+        type: DataTypes.DECIMAL(20,10),
         allowNull: false,
       },
     },

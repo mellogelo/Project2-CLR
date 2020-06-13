@@ -60,6 +60,10 @@ module.exports = function (sequelize, DataTypes) {
       //   references: "Currencies",
       //   referencesKey: "uuid",
       // },
+      initialAmount: {
+        type: DataTypes.DECIMAL(20, 10),
+        allowNull: false,
+      },
     },
     {
       // Options https://sequelize.org/v3/docs/models-definition/#configuration
@@ -71,5 +75,9 @@ module.exports = function (sequelize, DataTypes) {
     Account.hasMany(models.Transaction, { foreignKey: "accountUUID" });
   };
 
+  // add hook (trigger) to update initial amount based on exchange rate
+  // Account.beforeCreate(async (account,options) => {
+    
+  // });
   return Account;
 };
