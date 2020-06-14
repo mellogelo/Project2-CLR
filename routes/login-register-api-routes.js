@@ -18,7 +18,7 @@ module.exports = function (app) {
   // - email
   // - password (clear)
   app.post("/login", function (req, res) {
-    console.log("Executing /login (POST)");
+    console.log(`Executing ${req.baseUrl} (${req.method}) using protocol ${req.protocol}`);
     let email = req.body.email;
     let password = req.body.password;
     let response = { status: "OK", message: "Successfully logged in" };
@@ -66,7 +66,7 @@ module.exports = function (app) {
   // - message : "some error message"
   // Expects: firstName, lastName, email, password, confirmPassword, baseCurrencyCode
   app.post("/register", function (req, res) {
-    // console.log("\n\nRunning /register post method...\n");
+    console.log(`Executing ${req.baseUrl} (${req.method}) using protocol ${req.protocol}`);
     // console.log("\nBody Parameters: \n" + req.body);
     // console.log("\nURL Params:\n" + req.params);
     let response = { status: "ERROR", message: "Unknown Error" };
