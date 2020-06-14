@@ -18,25 +18,20 @@ module.exports = function (app) {
   // - email
   // - password (clear)
   app.post("/login", function (req, res) {
-    console.log("Executing /login (POST)");
+    console.log(`Executing ${req.baseUrl} (${req.method}) using protocol ${req.protocol}`);
     let email = req.body.email;
     let password = req.body.password;
     let response = { status: "OK", message: "Successfully logged in" };
 
-    // ********** REMOVE WHEN ACCESS TO PARAMS WORK
-    if (email == null) email = "chikeobi@cox.net";
-    if (password == null) password = "password";
-    // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-    console.log(`Email:    ${email}`);
-    console.log(`Password: ${password}`);
+    // console.log(`Email:    ${email}`);
+    // console.log(`Password: ${password}`);
 
     // check of user is in account database
     let sessionUUID = utilities.generateUUID();
     db.Account.findAll({ where: { email: email } })
       .then(function (accounts) {
         if (accounts == null || accounts.length != 1) throw new Error("No such account");
-        console.log(accounts);
+        // console.log(accounts);
         if (accounts[0].dataValues.password != password) throw new Error(`Password mis-match`);
         // update account with new Session ID and update lastLogin and last Transaction
         sessionTime = Date.now();
@@ -46,16 +41,18 @@ module.exports = function (app) {
         )
           .then(function (account) {
             if (account == null) throw new Error("Unable to update database");
-            console.log(account);
+            // console.log(account);
             response = { status: "OK", message: "Login successful", sessionUUID: sessionUUID };
             res.json(response);
           })
           .catch(function (error) {
+            console.log(error);
             response = { status: "ERROR", message: error.message };
             res.json(response);
           });
       })
       .catch(function (error) {
+        console.log(error);
         response = { status: "ERROR", message: error.message };
         res.json(response);
       });
@@ -69,9 +66,9 @@ module.exports = function (app) {
   // - message : "some error message"
   // Expects: firstName, lastName, email, password, confirmPassword, baseCurrencyCode
   app.post("/register", function (req, res) {
-    console.log("\n\nRunning /register post method...\n");
-    console.log("\nBody Parameters: \n" + req.body);
-    console.log("\nURL Params:\n" + req.params);
+    console.log(`Executing ${req.baseUrl} (${req.method}) using protocol ${req.protocol}`);
+    // console.log("\nBody Parameters: \n" + req.body);
+    // console.log("\nURL Params:\n" + req.params);
     let response = { status: "ERROR", message: "Unknown Error" };
     let firstName = req.body.firstName;
     let lastName = req.body.lastName;
@@ -79,23 +76,14 @@ module.exports = function (app) {
     let password = req.body.password;
     let baseCurrencyCode = req.body.baseCurrencyCode;
     let confirmPassword = req.body.confirmPassword;
-    console.log("\nParameters from POST body:");
 
-    // ********** REMOVE WHEN ACCESS TO PARAMS WORK
-    // if (firstName == null) firstName = "Chikeobi";
-    // if (lastName == null) lastName = "Njaka";
-    // if (email == null) email = "chikeobi@cox.net";
-    // if (password == null) password = "password";
-    // if (confirmPassword == null) confirmPassword = "password";
-    // if (baseCurrencyCode == null) baseCurrencyCode = "JPY";
-    // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-    console.log(`First Name:        ${firstName}`);
-    console.log(`Last Name:         ${lastName}`);
-    console.log(`Email:             ${email}`);
-    console.log(`Password :         ${password}`);
-    console.log(`Base Currency:     ${baseCurrencyCode}`);
-    console.log(`Confirm Password:  ${confirmPassword}`);
+    // console.log("\nParameters from POST body:");
+    // console.log(`First Name:        ${firstName}`);
+    // console.log(`Last Name:         ${lastName}`);
+    // console.log(`Email:             ${email}`);
+    // console.log(`Password :         ${password}`);
+    // console.log(`Base Currency:     ${baseCurrencyCode}`);
+    // console.log(`Confirm Password:  ${confirmPassword}`);
 
     if (baseCurrencyCode == null || baseCurrencyCode === "") baseCurrencyCode = "USD";
 
@@ -119,14 +107,14 @@ module.exports = function (app) {
       res.json(response);
     } else {
       // check if email is already in the account table
-      console.log(`Running query to check if ${email} is in Account database`);
+      // console.log(`Running query to check if ${email} is in Account database`);
       db.Account.findAll({
         where: {
           email: email,
         },
       })
         .then(function (accounts) {
-          console.log(accounts);
+          // console.log(accounts);
           if (accounts && accounts.length > 0) {
             response["message"] = `Account already exists (${email})`;
             res.json(response);
@@ -150,7 +138,7 @@ module.exports = function (app) {
                     baseCurrencyCode: baseCurrencyCode,
                     initialAmount: initialAmount,
                   };
-                  console.log(`Creating the following account: ${accountData}`);
+                  // console.log(`Creating the following account: ${accountData}`);
                   db.Account.create(accountData).then(function (account) {
                     console.log("\n\nAccount:");
                     console.log(account);
