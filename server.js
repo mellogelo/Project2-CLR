@@ -6,6 +6,7 @@ require("dotenv").config();
 const enigma = require("./security/newencryption");
 const handlebars = require("express-handlebars");
 const axios = require("axios");
+const utilities = require("./utilities");
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -22,6 +23,8 @@ let db = require("./models");
 // ==============================================
 require("./routes/html-routes.js")(app);
 require("./routes/login-register-api-routes")(app);
+require("./routes/account-summary-api-route")(app);
+require('./routes/trade-api-routes')(app);
 
 let CURRENCYSCOOP_LATEST_URL = `https://currencyscoop.p.rapidapi.com/latest?base=`;
 
