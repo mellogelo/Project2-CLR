@@ -18,7 +18,7 @@ module.exports = function (app) {
   // - password (clear)
   app.post("/login", function (req, res) {});
 
-  // Registeration route. If successful, will return object containing
+  // Registration route. If successful, will return object containing
   // - status : OK
   // - message : "some message"
   // If error:
