@@ -65,13 +65,10 @@
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Currencies
                                     </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="#">USD</a>
-                                        <a class="dropdown-item" href="#">EUR</a>
-                                        <a class="dropdown-item" href="#">JPY</a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style='max-height:200px;overflow-y:scroll'>
                                     </div>
                                     <div id="rates">
-                                        <p id="rateDetails">1 USD = .89076 EUR</p>
+                                        <p id="rateDetails">1 <span id="baseCurr">USD</span> = <span id="exRate">1</span> <span id="targetCurr">USD</span></p>
                                     </div>
                                 </div>
                                 <!--Submit Button-->
@@ -107,7 +104,8 @@
                              Balance
                          </h5>
                          <h2 id="balance">
-                             <span id="currentSymbol">$</span>10,000
+                             <span id="currentSymbol">$</span>
+                             <span id="accountBalance"></span>
                          </h2>
                         </div>
          
@@ -133,8 +131,9 @@
    
 
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<script src="js/summary.js"></script>
 </body>
 </html>

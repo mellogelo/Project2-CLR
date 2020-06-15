@@ -20,8 +20,7 @@ let db = require("./models");
 
 // Routes
 // ==============================================
-require("./routes/html-routes.js")(app);
-require("./routes/login-register-api-routes")(app);
+require("./routes")(app)
 
 let CURRENCYSCOOP_LATEST_URL = `https://currencyscoop.p.rapidapi.com/latest?base=`;
 
