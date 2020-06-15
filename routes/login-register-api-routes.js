@@ -1,7 +1,7 @@
 // **********************************************
 // login-register-api-routes - Routes for logging in and registering
 // **********************************************
-
+"use strict";
 // Requiring our models
 var db = require("../models");
 const crypto = require("crypto");
@@ -30,7 +30,7 @@ module.exports = function (app) {
         if (accounts == null || accounts.length != 1) throw new Error("No such account");
         if (accounts[0].dataValues.password != password) throw new Error(`Password mis-match`);
         // update account with new Session ID and update lastLogin and last Transaction
-        sessionTime = Date.now();
+        let sessionTime = Date.now();
         db.Account.update(
           { sessionUUID: sessionUUID, transactionTime: sessionTime, lastLoginTime: sessionTime },
           { where: { email: email }, returning: true, plain: true }
@@ -116,8 +116,8 @@ module.exports = function (app) {
         } else {
           response["message"] = `Account (${email}) successfully created`;
           response["status"] = "OK";
-          let data = { firstName: firstName, lastName: lastName, email: email, password: password };
           // get the USD to baseCurrency exchange
+          let accountUUID = utilities.generateUUID();
           db.ExchangeRate.findAll({
             where: { baseCurrencyCode: "USD", targetCurrencyCode: baseCurrencyCode },
           })
@@ -126,6 +126,7 @@ module.exports = function (app) {
                 let rate = exchange[0].dataValues.rate;
                 let initialAmount = constants.INITIAL_INVESTMENT_AMOUNT_USD * rate;
                 let accountData = {
+                  uuid: accountUUID,
                   firstName: firstName,
                   lastName: lastName,
                   email: email,
@@ -134,10 +135,31 @@ module.exports = function (app) {
                   initialAmount: initialAmount,
                 };
 
-                db.Account.create(accountData).then(function (account) {
-                  res.json(response);
-                  return;
-                });
+                db.Account.create(accountData)
+                  .then(function () {
+                    // create position record with base currency
+                    let position = { amount: initialAmount, accountUUID: accountUUID, currencyCode: baseCurrencyCode };
+                    db.Position.create(position)
+                      .then(function (data) {
+                        response = { status: "OK", message: `Successfully created account for ${email}` };
+                        res.json(response);
+                        return;
+                      })
+                      .catch(function (error) {
+                        console.log(error);
+                        response["status"] = "ERROR";
+                        response["message"] = `Database error. Cannot set up initial position for ${email}`;
+                        res.json(response);
+                        return;
+                      });
+                  })
+                  .catch(function (error) {
+                    console.log(error);
+                    response["status"] = "ERROR";
+                    response["message"] = `Database error. Cannot create account for ${email}`;
+                    res.json(response);
+                    return;
+                  });
               }
             })
             .catch(function (error) {
