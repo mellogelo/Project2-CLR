@@ -11,7 +11,6 @@ var loginForm = document.getElementById("login-form");
 function clearRegistrationForm() {
   document.getElementById("firstname").value = "";
   document.getElementById("lastName").value = "";
-  document.getElementById("registration-userName").value = "";
   document.getElementById("registration-password").value = "";
   document.getElementById("registration-confirm-password").value = "";
   document.getElementById("email-input").value = "";
@@ -24,29 +23,27 @@ function clearRegistrationForm() {
  * that way when the button is clicked, the event is fired since the button
  * type is "submit"
  */
-registerationForm.addEventListener("submit", function(event) {
+registerationForm.addEventListener("submit", function (event) {
   event.preventDefault();
   console.log("Register button clicked");
   // check inputs
   var svalue;
   var fnameEl = document.getElementById("firstname");
   var lnameEl = document.getElementById("lastName");
-  var unameEl = document.getElementById("registration-userName");
   var pwdEl = document.getElementById("registration-password");
   var pwdEl2 = document.getElementById("registration-confirm-password");
   var emailEl = document.getElementById("email-input");
   var errorEl = document.getElementById("registration-error-message");
+  var baseCurrencySelectEl = $("#base-currency-select");
 
-  var fname, lname, uname, pwd, pwd2, emailString, errText;
+  console.log("\n\n\nBase Currency Select Value ==> " + baseCurrencySelectEl.val());
+  var fname, lname, pwd, pwd2, emailString, errText;
 
   errorEl.innerHTML = "";
 
   var udata = {};
   // First Name
-  if (
-    (svalue = fnameEl.value) === null ||
-    (fname = svalue.trim()).length === 0
-  ) {
+  if ((svalue = fnameEl.value) === null || (fname = svalue.trim()).length === 0) {
     errorEl.innerHTML = "Invalid First Name";
     fnameEl.focus();
     fnameEl.value = "";
@@ -55,28 +52,13 @@ registerationForm.addEventListener("submit", function(event) {
   udata.firstName = fname;
 
   // Last Name
-  if (
-    (svalue = lnameEl.value) === null ||
-    (lname = svalue.trim()).length === 0
-  ) {
+  if ((svalue = lnameEl.value) === null || (lname = svalue.trim()).length === 0) {
     errorEl.innerHTML = "Invalid Last Name";
     lnameEl.focus();
     lnameEl.value = "";
     return;
   }
   udata.lastName = lname;
-
-  // User Name
-  if (
-    (svalue = unameEl.value) === null ||
-    (uname = svalue.trim()).length === 0
-  ) {
-    errorEl.innerHTML = "Invalid User Name";
-    unameEl.focus();
-    unameEl.value = "";
-    return;
-  }
-  udata.userName = uname;
 
   // Password
   if ((svalue = pwdEl.value) === null || (pwd = svalue.trim()).length === 0) {
@@ -103,35 +85,44 @@ registerationForm.addEventListener("submit", function(event) {
   udata.password = pwd;
 
   // Email
-  if (
-    (svalue = emailEl.value) === null ||
-    (emailString = svalue.trim()).length === 0
-  ) {
+  if ((svalue = emailEl.value) === null || (emailString = svalue.trim()).length === 0) {
     errorEl.innerHTML = "Invalid Email";
     emailEl.focus();
     emailEl.value = "";
     return;
   }
   udata.email = emailString;
-  //
-  // check if user exists in the database by userName
-  var userData = getUserData(uname);
-  if (userData != null) {
-    errText = "Username <strong>" + uname;
-    errText += "</strong> already in use";
-    errorEl.innerHTML = errText;
-    unameEl.value = "";
-    unameEl.focus();
+  var currencyCode = baseCurrencySelectEl.val();
+  // make sure base currency is choosen
+  if (currencyCode === "Choose...") {
+    errorEl.innerHTML = "Choose Base Currency";
+    baseCurrencySelectEl.focus();
     return;
   }
-  udata.sessionCount = 0;
-  // now save data into localStorage
-  var logString = "Successfully registered user:\n";
-  logString += getUserDataLogText(udata);
-  console.log(logString);
-  // save registrant into localStorage
-  setSessionData(udata);
 
+  let registerData = {
+    firstName: fname,
+    lastName: lname,
+    email: emailString,
+    password: pwd,
+    confirmPassword: pwd2,
+    baseCurrencyCode: currencyCode,
+  };
+  console.log(registerData);
+  //
+  // send registration data and wait for response
+  $.ajax("/register", { type: "POST", data: registerData }).done(function (resp) {
+    console.log(resp);
+    if (resp.status !== "OK") {
+      errorEl.innerHTML = resp.message;
+      fnameEl.focus();
+      return;
+    }
+    var unameElement = document.getElementById("login-email");
+    unameElement.value = emailString;
+    document.getElementById("login-password").focus();
+    errorEl.innerHTML = `${emailString} successfully registered!!. Please log in`;
+  });
   // clear the register form
   clearRegistrationForm();
 });
@@ -139,10 +130,10 @@ registerationForm.addEventListener("submit", function(event) {
 /*
  *
  */
-loginForm.addEventListener("submit", function(event) {
+loginForm.addEventListener("submit", function (event) {
   event.preventDefault();
   // check the inputs to make sure the entry is valid
-  var unameElement = document.getElementById("login-userName");
+  var unameElement = document.getElementById("login-email");
   var pwdElement = document.getElementById("login-password");
   var errorEl = document.getElementById("login-error-message");
 
@@ -150,10 +141,7 @@ loginForm.addEventListener("submit", function(event) {
   var inputString;
   var userNameString, passwordString;
   // check userName validity
-  if (
-    (inputString = unameElement.value) == null ||
-    (userNameString = inputString.trim().toLowerCase()).length == 0
-  ) {
+  if ((inputString = unameElement.value) == null || (userNameString = inputString.trim().toLowerCase()).length == 0) {
     console.log("UserNameString = " + userNameString);
     unameElement.value = "";
     unameElement.focus();
@@ -161,10 +149,7 @@ loginForm.addEventListener("submit", function(event) {
     return;
   }
   // check password validity
-  if (
-    (inputString = pwdElement.value) == null ||
-    (passwordString = inputString.trim().toLowerCase()).length == 0
-  ) {
+  if ((inputString = pwdElement.value) == null || (passwordString = inputString.trim().toLowerCase()).length == 0) {
     pwdElement.value = "";
     pwdElement.focus();
     errorEl.innerHTML = "Invalid Password entry";
@@ -197,6 +182,6 @@ loginForm.addEventListener("submit", function(event) {
   // targetUrl += "&sessionTime=" + userData.sessionTime;
   // window.location.replace(targetUrl);
 });
-console.log(shuffleArray(Object.keys(HTML_QUESTIONS), 10));
+// console.log(shuffleArray(Object.keys(HTML_QUESTIONS), 10));
 
-loadAllUserData();
+// loadAllUserData();

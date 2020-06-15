@@ -70,6 +70,13 @@ module.exports = function (app) {
     let baseCurrencyCode = req.body.baseCurrencyCode;
     let confirmPassword = req.body.confirmPassword;
 
+    console.log(`First Name:       ${firstName}`);
+    console.log(`Last Name:        ${lastName}`);
+    console.log(`Email:            ${email}`);
+    console.log(`Password:         ${password}`);
+    console.log(`Confirm Password: ${confirmPassword}`);
+    console.log(`Base Currency:    ${baseCurrencyCode}`);
+
     if (baseCurrencyCode == null || baseCurrencyCode === "") baseCurrencyCode = "USD";
 
     if (firstName == null || (firstName = firstName.trim()).length < 1) {

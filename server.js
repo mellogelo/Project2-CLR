@@ -7,7 +7,6 @@ const enigma = require("./security/newencryption");
 const handlebars = require("express-handlebars");
 const axios = require("axios");
 const utilities = require("./utilities");
-
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -17,14 +16,26 @@ app.use(express.static("public"));
 app.engine("handlebars", handlebars({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
+// Handlebars.registerHelper("debug", function(optionalValue) {
+//   console.log("Current Context");
+//   console.log("====================");
+//   console.log(this);
+
+//   if (optionalValue) {
+//     console.log("Value");
+//     console.log("====================");
+//     console.log(optionalValue);
+//   }
+// });
+
 let db = require("./models");
 
 // Routes
 // ==============================================
-require("./routes/html-routes.js")(app);
-require("./routes/login-register-api-routes")(app);
 require("./routes/account-summary-api-route")(app);
-require('./routes/trade-api-routes')(app);
+require("./routes/index-route.js")(app);
+require("./routes/login-register-api-routes")(app);
+require("./routes/trade-api-routes")(app);
 
 let CURRENCYSCOOP_LATEST_URL = `https://currencyscoop.p.rapidapi.com/latest?base=`;
 
@@ -147,7 +158,7 @@ async function updateExchangeRateTable(db) {
           headers: {
             "content-type": "application/octet-stream",
             "x-rapidapi-host": "currencyscoop.p.rapidapi.com",
-            "x-rapidapi-key": "5112b8642cmsh66adc618f8726e4p1f8a51jsn8c2a905c7d57",
+            "x-rapidapi-key": process.env.RAPID_API_KEY || "5112b8642cmsh66adc618f8726e4p1f8a51jsn8c2a905c7d57",
             useQueryString: true,
           },
         });

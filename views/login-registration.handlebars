@@ -51,20 +51,17 @@
 
             <div class="input-group mb-3" style="width: 80%;margin-left: 10%;">
               <div class="input-group-prepend">
-                <label class="input-group-text" for="inputGroupSelect01">Base Currency</label>
+                <label class="input-group-text" for="baseCurrencySelect">Base Currency</label>
               </div>
-              <select class="custom-select form-control" id="inputGroupSelect01">
+              <select class="custom-select form-control" id="base-currency-select">
                 <option selected>Choose...</option>
-                <option value="1">USD - United States Dollar</option>
-                <option value="2">JPY - Japanese Yen</option>
-                <option value="3">EUR - European Union Euro</option>
-                <option value="3">GBP - United Kingdom Pound Sterling</option>
+                {{debug}}
+                {{#each baseCurrencies}}
+                <option value="{{this.code}}">{{this.code}} - {{this.country}} {{this.name}}
+                  &#x{{this.symbolUnicodeHex}}</option>
+                {{/each}}
               </select>
             </div>
-
-
-
-
             <button type="submit" class="btn btn-dark login-register-btn" id="register-button" name="register-button">
               Registration
             </button>
