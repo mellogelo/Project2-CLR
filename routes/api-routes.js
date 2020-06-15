@@ -5,7 +5,7 @@ module.exports = (app)=>{
         console.log(req.body);
     })
 
-    app.get("/api/summary/:id", async function(req, res) {
+    app.get("/summary/:id", async function(req, res) {
         const account = await db.Account.findOne(
             {include: [db.Position, db.Transaction],
                 where:{

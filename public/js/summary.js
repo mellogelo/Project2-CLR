@@ -3,7 +3,7 @@ $(document).ready(function() {
     let currencies = "";
     let baseCurrencies = "";
     let selectedBase = "";
-    $.get("/api/summary/051f966f-736d-4219-88f3-376d1aee8bf6").then(({account, currencies})=>{
+    $.get("/summary/051f966f-736d-4219-88f3-376d1aee8bf6").then(({account, currencies})=>{
         user = account;
         currencies = currencies;
         baseCurrencies = currencies.filter(a=> a.ExchangeRates.length);
