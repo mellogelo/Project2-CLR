@@ -54,7 +54,7 @@ module.exports = function (app) {
         },
       });
       if (dbUsers == null || dbUsers.length != 1) {
-        response = { status: "ERROR", message: "ERROR!! SessionUUID is not found!" };
+        response = { status: "ERROR", message: "ERROR!! SessionUUID is not found!", sessionUUID: sessionUUID };
         res.json(response);
         return;
       }
@@ -69,7 +69,7 @@ module.exports = function (app) {
       if (dbXactionTime == null || dbXactionTime == "") dbXactionTime = Date.now();
       let xactionTime = Date.now();
       if (dbXactionTime + sessionTimoutMilli < xactionTime) {
-        response = { status: "ERROR", message: "ERROR!! Session timeout" };
+        response = { status: "ERROR", message: "ERROR!! Session timeout" , sessionUUID: sessionUUID };
         // go back to login page
         // res.redirect('/');
         res.json(response);
