@@ -11,11 +11,4 @@ module.exports = function (app) {
     res.sendFile(path.join(__dirname, "../public/login-registration.html"));
   });
 
-  app.get("/login", function (req, res) {
-    res.render("login");
-  });
-
-  app.get("/signup", function (req, res) {
-    res.render("signup");
-  });
 };
