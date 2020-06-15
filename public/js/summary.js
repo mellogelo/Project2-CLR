@@ -29,4 +29,3 @@ $(document).ready(function() {
         $("#targetCurr").text(rate.targetCurrencyCode)
     })
     })
-    
