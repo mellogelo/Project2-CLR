@@ -1,6 +1,7 @@
 .login-bg {
     height: 100vh;
     background-image: url("https://8topuz.com/wp-content/uploads/2019/11/AI-Trading-Background-8topuz-Globe.jpg");
+    padding-top: 5%;
 }
 
 .form-control:hover {
@@ -19,17 +20,36 @@
     padding-left: 10%;
     padding-right: 10%;
     height: 75vh;
+    opacity: 95%;
+    text-align: center;
 }
 
 .loginform h2 {
     color: white;
+    font-size: 18px;
+    margin-bottom: 15px;
 }
 
 .registerform {
     background-color: whitesmoke;
     display: block;
-    padding: 25px;
     height: 75vh;
+    padding-top: 40px;
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-bottom: 15px;
+    text-align: center;
+}
+
+.registerform h2 {
+    font-size: 18px;
+    margin-bottom: 25px;
+}
+
+.registerform input {
+    background-color: transparent;
+    border-color: transparent;
+    border-bottom: 1px solid black;
 }
 
 .logo-login {
@@ -44,5 +64,24 @@
 #login-button {
     border-radius: 5px;
     width: 100%;
+    background: #10af4d;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
 
+#login-button:hover {
+    background-color: #2a2666;
+
+}
+
+.login-register-btn {
+    background-color: black;
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.login-register-btn:hover {
+    background-color: #10af4d;
+    border-color: transparent;
 }
