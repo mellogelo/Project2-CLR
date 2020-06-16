@@ -1,0 +1,48 @@
+.login-bg {
+    height: 100vh;
+    background-image: url("https://8topuz.com/wp-content/uploads/2019/11/AI-Trading-Background-8topuz-Globe.jpg");
+}
+
+.form-control:hover {
+    text-decoration: none;
+    border: none;
+  
+    box-shadow: none;
+    border: 1px solid #10af4d;
+  }
+
+.loginform {
+    background-color: #161616;
+    display: block;
+    padding-top: 75px;
+    padding-bottom: 50px;
+    padding-left: 10%;
+    padding-right: 10%;
+    height: 75vh;
+}
+
+.loginform h2 {
+    color: white;
+}
+
+.registerform {
+    background-color: whitesmoke;
+    display: block;
+    padding: 25px;
+    height: 75vh;
+}
+
+.logo-login {
+    margin-bottom: 25px;
+}
+
+#container-row {
+    box-shadow:0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    border-radius: 15px;
+}
+
+#login-button {
+    border-radius: 5px;
+    width: 100%;
+
+}
