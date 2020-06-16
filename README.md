@@ -51,44 +51,28 @@ Upon success, returns JSON data like the following example (not accurate per exc
   message: 'Account summary',
   sessionUUID: 'e159a4a3-a075-a316-be26-cf0a8d766d49',
   summary: {
-    baseCurrency:'USD',
+    fullName: 'John Doe',
+    baseCurrency:
+    {
+      code: 'USD',
+      name: 'Dollar',
+      country: 'United States',
+      symbolUnicodeHex: '24'
+    },
     initialAmount:10000.00
     currentAccountValue: 10023.724
     available: 5000.00
     positions: {
-      JPY: 102154.1236
-      GBP: 125.236
-      NGN: 20145.369
-    },
-    rates:{
-      JPY: 107.38794366,
-      EUR: 0.88855587,
-      GBP: 0.7971622,
-      AUD: 1.45688914,
-      BRL: 5.05076366,
-      CAD: 1.35798109,
-      CNY: 7.08103489,
-      DKK: 6.62203038,
-      HKD: 7.7501481,
-      ILS: 3.47864802,
-      INR: 75.94755627,
-      KRW: 1205.25621879,
-      MXN: 22.2315878,
-      NGN: 387.4637949,
-      NOK: 9.64827893,
-      NZD: 1.55110555,
-      USD: 1,
-      PHP: 50.27592509,
-      RUB: 69.87071598,
-      SAR: 3.75,
-      SEK: 9.33520312,
-      SGD: 1.39235467,
-      THB: 31.07510137,
-      TRY: 6.81249618,
-      TWD: 29.70777587,
-      XOF: 582.8544504,
-      ZAR: 17.06630716
-    }
+    positions: [
+      {code:'JPY', rate:107.38794366, name: 'Yen',   amount: 102154.1236, country: 'Japan',          symbolUnicodeHex: 'a5'},
+      {code:'GBP', rate:0.7971622,    name: 'Pound', amount: 125.236,     country: 'United Kingdom', symbolUnicodeHex: 'a3'},
+      {code:'NGN', rate:387.4637949,  name: 'Naira', amount: 20145.369,   country: 'Nigeria',        symbolUnicodeHex: '20a6'},
+    ],
+    rates:[
+      {code:'JPY', name: 'Yen',   rate: 107.38794366,  country: 'Japan',          symbolUnicodeHex: 'a5'},
+      {code:'GBP', name: 'Pound', rate: 0.7971622,     country: 'United Kingdom', symbolUnicodeHex: 'a3'},
+      {code:'NGN', name: 'Naira', rate: 387.4637949,   country: 'Nigeria',        symbolUnicodeHex: '20a6'},
+    ]
   }
 }
 ```

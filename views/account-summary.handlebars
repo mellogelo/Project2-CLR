@@ -1,0 +1,84 @@
+<section id="account-summary">
+    <div class="container">
+        <div class="row justify-content-center">
+            <h1>Bootcamp Forex</h1>
+        </div>
+        <div class="row justify-content-center">
+            <h2>{{summary.fullName}} Account Summary</h2>
+        </div>
+        <hr style="color: white;" />
+        <div class="row" id="container-row">
+            <!--Left Half of the screen-->
+            <div class="col-md-6">
+                <div id="overview-left">
+                    <h3>Base Currency <span class="badge badge-secondary">{{summary.baseCurrency.country}}
+                            {{summary.baseCurrency.name}} &#x{{summary.baseCurrency.symbolUnicodeHex}};</span></h3>
+                    <h3>Account Value <span class="badge badge-secondary">&#x{{summary.baseCurrency.symbolUnicodeHex}};
+                            {{summary.currentAccountValue}}</span></h3>
+                </div>
+            </div>
+            <!-- Right Halp of the screen -->
+            <div class="col-md-6">
+                <div id="overview-left">
+                    <h3></h3>
+                    <h3>Initial Investment <span class="badge badge-secondary">&#x24; 10,000</span></h3>
+                </div>
+            </div>
+        </div>
+        <hr style="color: white;" />
+        <div class="row">
+            <h3>Positions:</h3>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Country</th>
+                            <th scope="col">Currency</th>
+                            <th scope="col">Symbol</th>
+                            <th scope="col">Code</th>
+                            <th scope="col">Amount</th>
+                            <th scopr="col">Rate</th>
+                            <th scope="col">Trade</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each summary.positions}}
+                        <tr>
+                            <th scope="row">{{country}}</th>
+                            <td>{{name}}</td>
+                            <td>&#x{{symbolUnicodeHex}};</td>
+                            <td>{{code}}</td>
+                            <td>{{amount}}</td>
+                            <td>{{rate}}</td>
+                            <td style="text-align: center;">
+                                <!-- <button type="button" class="btn btn-primary">Sell</i></button> -->
+                                <input type="text" placeholder="Amount" id="pos-inp-{{code}}" />
+                                <button class="btn btn-primary btn-sell" data-code="{{code}}" type="button"
+                                    id="button-addon2">Sell</button>
+                            </td>
+                        </tr>
+                        {{/each}}
+
+                        {{!-- <tr>
+                            <th scope="row">United States</th>
+                            <td>Dollar</td>
+                            <td>&#x24;</td>
+                            <td>USD</td>
+                            <td>2.846</td>
+                            <td>1.0</td>
+                            <td style="text-align: center;">
+                                <!-- <button type="button" class="btn btn-primary">Sell</i></button> -->
+                                <input type="text" placeholder="Amount" id="pos-inp-USD" />
+                                <button class="btn btn-primary btn-sell" data-code="USD" type="button"
+                                    id="button-addon2">Sell</button>
+                            </td>
+                        </tr> --}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
