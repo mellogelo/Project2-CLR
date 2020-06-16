@@ -22,6 +22,7 @@ function getPosition(author) {
         initializeRows();
       }
     });
+    
   }
 
 
