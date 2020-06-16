@@ -112,7 +112,7 @@ module.exports = function (app) {
       if (dbRates != null && dbRates.length != 0) {
         for (let index = 0; index < dbRates.length; index++) {
           let rate = dbRates[index];
-          if (rate.targetCurrencyCode !== baseCurrency) rates[rate.targetCurrencyCode] = rate.rate;
+          if (rate.targetCurrencyCode !== baseCurrency) rates[rate.targetCurrencyCode] = parseFloat(rate.rate);
         }
       }
       summary["rates"] = rates;
