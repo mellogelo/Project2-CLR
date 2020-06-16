@@ -54,8 +54,8 @@ Upon success, returns JSON data like the following example (not accurate per exc
     baseCurrency:'USD',
     initialAmount:10000.00
     currentAccountValue: 10023.724
+    available: 5000.00
     positions: {
-      USD: 5000
       JPY: 102154.1236
       GBP: 125.236
       NGN: 20145.369

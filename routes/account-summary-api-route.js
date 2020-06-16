@@ -69,7 +69,7 @@ module.exports = function (app) {
       if (dbXactionTime == null || dbXactionTime == "") dbXactionTime = Date.now();
       let xactionTime = Date.now();
       if (dbXactionTime + sessionTimoutMilli < xactionTime) {
-        response = { status: "ERROR", message: "ERROR!! Session timeout" , sessionUUID: sessionUUID };
+        response = { status: "ERROR", message: "ERROR!! Session timeout", sessionUUID: sessionUUID };
         // go back to login page
         // res.redirect('/');
         res.json(response);
@@ -85,15 +85,24 @@ module.exports = function (app) {
         where: {
           accountUUID: accountUUID,
         },
+        order: [["currencyCode", "ASC"]],
       });
       response = { status: "OK", sessionUUID: sessionUUID, message: "Account Summary" };
-      let summary = { baseCurrency: baseCurrency, initialAmount: initialAmount, currentAccountValue: 0.0 };
+      let summary = {
+        baseCurrency: baseCurrency,
+        initialAmount: initialAmount,
+        currentAccountValue: 0.0,
+        available: 0.0,
+      };
       let positions = {};
       if (dbPositions != null && dbPositions.length != 0) {
-        let pos;
+        let pos, amount;
         for (let index = 0; index < dbPositions.length; index++) {
           pos = dbPositions[index];
-          positions[pos.currencyCode] = pos.amount;
+          amount = parseFloat(pos.amount);
+          if (pos.currencyCode === baseCurrency) {
+            summary["available"] = amount;
+          } else positions[pos.currencyCode] = amount;
         }
         summary["positions"] = positions;
       }
@@ -103,7 +112,7 @@ module.exports = function (app) {
       if (dbRates != null && dbRates.length != 0) {
         for (let index = 0; index < dbRates.length; index++) {
           let rate = dbRates[index];
-          rates[rate.targetCurrencyCode] = rate.rate;
+          if (rate.targetCurrencyCode !== baseCurrency) rates[rate.targetCurrencyCode] = rate.rate;
         }
       }
       summary["rates"] = rates;
