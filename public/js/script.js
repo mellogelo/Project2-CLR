@@ -170,9 +170,11 @@ loginForm.addEventListener("submit", function (event) {
     // login successful. go to account summary
     let accountSummaryData = { sessionUUID: sessionUUID };
     console.log(`Calling /accountSummary`);
+    let redirectUrl = `/accountSummary?sessionUUID=${sessionUUID}`;
+    window.location.redirect(redirectUrl);
     $.ajax("/accountSummary", { type: "POST", data: accountSummaryData }).done(function (resp) {
       console.log(`Returned from accountSummary route`);
-      console.log(resp);
+      //console.log(resp);
     });
   });
 });

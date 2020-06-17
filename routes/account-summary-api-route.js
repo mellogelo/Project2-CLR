@@ -188,9 +188,9 @@ module.exports = function (app) {
       }
 
       res.render("account-summary", response);
-      console.log(response);
-      console.log(positions);
-      console.log(rates);
+      // console.log(response);
+      // console.log(positions);
+      // console.log(rates);
       // res.json(response);
     })();
   });
