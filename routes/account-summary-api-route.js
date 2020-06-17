@@ -289,7 +289,10 @@ module.exports = function (app) {
       let rates = [];
       let ratesObj = [];
       // get rates
-      let dbRates = await db.ExchangeRate.findAll({ where: { baseCurrencyCode: baseCurrency } });
+      let dbRates = await db.ExchangeRate.findAll({
+        where: { baseCurrencyCode: baseCurrency },
+        order: [["targetCurrencyCode", "ASC"]],
+      });
       if (dbRates != null && dbRates.length != 0) {
         for (let index = 0; index < dbRates.length; index++) {
           let rate = dbRates[index];
