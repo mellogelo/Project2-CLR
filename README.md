@@ -62,7 +62,6 @@ Upon success, returns JSON data like the following example (not accurate per exc
     initialAmount:10000.00
     currentAccountValue: 10023.724
     available: 5000.00
-    positions: {
     positions: [
       {code:'JPY', rate:107.38794366, name: 'Yen',   amount: 102154.1236, country: 'Japan',          symbolUnicodeHex: 'a5'},
       {code:'GBP', rate:0.7971622,    name: 'Pound', amount: 125.236,     country: 'United Kingdom', symbolUnicodeHex: 'a3'},

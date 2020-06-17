@@ -19,17 +19,23 @@
             </div>
             <!-- Right Halp of the screen -->
             <div class="col-md-6">
-                <div id="overview-left">
-                    <h3></h3>
+                <div id="overview-right">
                     <h3>Initial Investment <span class="badge badge-secondary"
                             style="background-color: lightcoral;">&#x{{summary.baseCurrency.symbolUnicodeHex}};
                             {{summary.initialAmount}}</span></h3>
+                    <h3>Available <span class="badge badge-secondary" style="background-color: lightcoral;">&#x{{summary.baseCurrency.symbolUnicodeHex}};
+                            {{summary.available}}</span></h3>
                 </div>
             </div>
         </div>
         <hr style="color: white;" />
         <div class="row">
-            <h3>Positions:</h3>
+            <div class="col-md-6">
+                <h3>Positions:</h3>
+            </div>
+            <div class="col-md-6">
+                <h5 id="account-summary-message" style="font-style: italic; color: red;"></h5>
+            </div>
         </div>
 
         <div class="row">
