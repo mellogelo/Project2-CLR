@@ -7,6 +7,7 @@ var loginButton = document.getElementById("login-button");
 var registerButton = document.getElementById("register-button");
 var registerationForm = document.getElementById("registration-form");
 var loginForm = document.getElementById("login-form");
+const SESSION_UUID_STORAGE_KEY = "forexSessionUUID";
 
 function clearRegistrationForm() {
   document.getElementById("firstname").value = "";
@@ -19,17 +20,33 @@ function clearRegistrationForm() {
   document.getElementById("firstname").focus();
 }
 
-$(".btn-sell").click(function () {
+$(".btn-sell").click(function (event) {
+  event.preventDefault();
   console.log("Sell button clicked");
   let code = $(this).data("code");
   let inpId = `#pos-inp-${code}`;
-  let inpVal = $(inpId).val();
-
-  if (inpVal == null || (inpVal = inpVal.trim()).length == 0 || isNaN(inpVal)) {
+  let amount = $(inpId).val();
+  let messageEl = $('#account-summary-message');
+  messageEl.text('');
+  if (amount == null || (amount = amount.trim()).length == 0 || isNaN(amount)) {
     $(inpId).val("");
     $(inpId).focus();
     return;
   }
+
+  let sessionUUID = localStorage.getItem(SESSION_UUID_STORAGE_KEY);
+  let url = `/trade/sell`;
+  let sendData = { sessionUUID: sessionUUID, currencyCode: code, amount: amount };
+  // send POST request
+  $.ajax(url, { type: "POST", data: sendData }).then(function (resp) {
+    if (resp.status === 'ERROR'){
+      messageEl.text(resp.message);
+      return;
+    }
+    console.log(resp);
+    // reload the page to refresh the summary
+    location.reload();
+  });
 });
 // event listener for button class on click
 /*
@@ -188,6 +205,10 @@ if (loginForm)
       console.log(`Calling /accountSummary`);
       let redirectUrl = `/accountSummary?sessionUUID=${sessionUUID}`;
       location.replace(redirectUrl);
+      // save sessionUUID into localStorage
+      localStorage.setItem(SESSION_UUID_STORAGE_KEY, sessionUUID);
+      let storedUUID = localStorage.getItem(SESSION_UUID_STORAGE_KEY);
+      console.log(`Saved sessionUUID into localStorage: ${storedUUID}`);
       // $.ajax("/accountSummary", { type: "POST", data: accountSummaryData }).done(function (resp) {
       //   console.log(`Returned from accountSummary route`);
       //   //console.log(resp);

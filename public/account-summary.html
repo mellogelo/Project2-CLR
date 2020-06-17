@@ -34,7 +34,7 @@
               <h3>Account Value <span class="badge badge-secondary">&#x24; 11,950</span></h3>
             </div>
           </div>
-          <!-- Right Halp of the screen -->
+          <!-- Right Half of the screen -->
           <div class="col-md-6">
             <div id="overview-left">
               <h3>Initial Investment <span class="badge badge-secondary">&#x24; 10,000</span></h3>
@@ -44,7 +44,12 @@
         </div>
         <hr style="color: white;" />
         <div class="row">
-          <h3>Positions:</h3>
+          <div class="col-md-6">
+            <h3>Positions:</h3>
+          </div>
+          <div class="col-md-6">
+            <h5 id="account-summary-message" style="font-style: italic; color: red;">Error Message</h5>
+          </div>
         </div>
 
         <div class="row">
@@ -71,11 +76,10 @@
                   <td>1.0</td>
                   <td style="text-align: center;">
                     <!-- <button type="button" class="btn btn-primary">Sell</i></button> -->
-                    <input
-                      type="text"
-                      placeholder="Amount" id="pos-inp-USD"
-                    />
-                    <button class="btn btn-primary btn-sell" data-code="USD" type="button" id="button-addon2">Sell</button>
+                    <input type="text" placeholder="Amount" id="pos-inp-USD" />
+                    <button class="btn btn-primary btn-sell" data-code="USD" type="button" id="button-addon2">
+                      Sell
+                    </button>
                   </td>
                 </tr>
               </tbody>

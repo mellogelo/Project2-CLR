@@ -281,7 +281,7 @@ module.exports = function (app) {
       let summary = {
         fullName: fullName,
         baseCurrency: baseCurrencyObj,
-        initialAmount: initialAmount,
+        initialAmount: new Number(initialAmount).toFixed(2),
         currentAccountValue: 0.0,
         available: 0.0,
       };
@@ -318,7 +318,7 @@ module.exports = function (app) {
           let curr = currencies[pos.currencyCode];
           if (pos.currencyCode === baseCurrency) {
             available = amount;
-            summary["available"] = amount;
+            summary["available"] = new Number(amount).toFixed(2);
           } else {
             let position = {
               code: pos.currencyCode,

@@ -100,7 +100,7 @@ module.exports = function (app) {
     // check sessionUUID and see if it is valid and "active"
     let sessionUUID = req.body.sessionUUID;
     let currencyCode = req.body.currencyCode;
-    let amount = req.body.amount;
+    let tradeAmount = req.body.amount;
     let response = {};
     if (sessionUUID == null || sessionUUID === "") {
       response = { status: "ERROR", message: "ERROR!! No SessionUUID provided!" };
@@ -112,11 +112,12 @@ module.exports = function (app) {
       res.json(response);
       return;
     }
-    if (amount == null || isNaN(amount)) {
+    if (tradeAmount == null || isNaN(tradeAmount)) {
       response = { status: "ERROR", message: "ERROR!! Amount is invalid!", sessionUUID: sessionUUID };
       res.json(response);
       return;
     }
+
     (async () => {
       //get the account information and check session time
       let dbUsers = await db.Account.findAll({
@@ -151,6 +152,77 @@ module.exports = function (app) {
         { transactionTime: xactionTime },
         { where: { sessionUUID: sessionUUID }, returning: true, plain: true }
       );
+
+      // get user position for currency
+      let dbPositions = await db.Position.findAll({ where: { accountUUID: accountUUID, currencyCode: currencyCode } });
+      if (dbPositions == null || dbPositions.length == 0) {
+        res.json({ status: "ERROR", message: `User has no position (funds). Cannot trade ${currencyCode}` });
+        return;
+      }
+      let positionAmount = 0.0;
+      for (let index = 0; index < dbPositions.length; index++) {
+        positionAmount += dbPositions[index].amount;
+      }
+      positionAmount = parseFloat(positionAmount);
+      if (tradeAmount > positionAmount) {
+        res.json({ status: "ERROR", message: `Trade amount (${tradeAmount}) exceeds position (${positionAmount})` });
+        return;
+      }
+      // get Exchange rate for currency using baseCurrency
+      let dbRates = await db.ExchangeRate.findAll({
+        where: { baseCurrencyCode: baseCurrency, targetCurrencyCode: currencyCode },
+      });
+      if (dbRates == null || dbRates.length == 0) {
+        res.json({
+          status: "ERROR",
+          message: `Unable to get exchange rate for ${currencyCode} using base currency ${baseCurrency}`,
+        });
+        return;
+      }
+      let exchageRate = dbRates[0].rate;
+      let bought = tradeAmount / exchageRate;
+      let positionBalance = parseFloat(positionAmount) - parseFloat(tradeAmount);
+
+      if (positionBalance < 0.01) {
+        // if all gone, delete position
+        let dbResult = await db.Position.destroy({ where: { currencyCode: currencyCode, accountUUID: accountUUID } });
+        console.log(
+          `\n\nRemoved position for currency ${currencyCode} for user ${dbUser.firstName} ${dbUser.lastName} (${dbUser.email})`
+        );
+        console.log(dbResult);
+      } else {
+        // update position for currency code: positionBalance
+        let updateData = { amount: positionBalance };
+        let dbResult = await db.Position.update(updateData, {
+          where: { accountUUID: accountUUID, currencyCode: currencyCode },
+        });
+        console.log(`\n\nUpdated Position for user  ${dbUser.firstName} ${dbUser.lastName} (${dbUser.email}):`);
+        console.log(`\tCurrencyCode: ${currencyCode}`);
+        console.log(`\tOld Value: ${positionAmount}`);
+        console.log(`\tNew Value: ${positionBalance}`);
+        console.log(dbResult);
+      }
+      // now get base currency position and add to it, then update
+      dbPositions = await db.Position.findAll({ where: { accountUUID: accountUUID, currencyCode: baseCurrency } });
+      if (dbPositions == null || dbPositions.length == 0) {
+        res.json({
+          status: "ERROR",
+          message: `ERROR!!! Unable to update exchange position for base currency (${baseCurrency})`,
+        });
+        return;
+      }
+      let balance = parseFloat(dbPositions[0].amount) + parseFloat(bought);
+      // update position for base currency
+      let updateData = { amount: balance };
+      let dbResult = await db.Position.update(updateData, {
+        where: { accountUUID: accountUUID, currencyCode: baseCurrency },
+      });
+      console.log(`\n\nUpdated Base Currency Position for user  ${dbUser.firstName} ${dbUser.lastName} (${dbUser.email}):`);
+      console.log(`\tCurrencyCode: ${currencyCode}`);
+      console.log(`\tOld Value: ${dbPositions[0].amount}`);
+      console.log(`\tNew Value: ${balance}`);
+      console.log(dbResult);
+      res.json({ status: "OK", message: `Sell of ${tradeAmount} ${currencyCode} successful` });
     })();
   });
 };
