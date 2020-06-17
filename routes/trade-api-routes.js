@@ -96,9 +96,11 @@ module.exports = function (app) {
    *
    */
   app.post("/trade/sell", function (req, res) {
-    console.log(`Executing ${req.baseUrl} (${req.method}) using protocol ${req.protocol}`);
+    console.log(`Executing /trade/sell (${req.method}) using protocol ${req.protocol}`);
     // check sessionUUID and see if it is valid and "active"
     let sessionUUID = req.body.sessionUUID;
+    let currencyCode = req.body.currencyCode;
+    let amount = req.body.amount;
     let response = {};
     if (sessionUUID == null || sessionUUID === "") {
       response = { status: "ERROR", message: "ERROR!! No SessionUUID provided!" };
