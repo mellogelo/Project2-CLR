@@ -5,6 +5,7 @@ const https = require("https");
 require("dotenv").config();
 const enigma = require("./security/newencryption");
 const handlebars = require("express-handlebars");
+const Handlebars = require("handlebars");
 const axios = require("axios");
 const utilities = require("./utilities");
 const app = express();
@@ -17,6 +18,7 @@ app.engine("handlebars", handlebars({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
 let db = require("./models");
+const constants = require("./constants");
 
 // Routes
 // ==============================================
@@ -185,7 +187,8 @@ db.sequelize
   .then(runServer)
   .then(function () {
     updateCurrencyTable(db);
+    // set interval timer to update exchange table
+    setInterval(function () {
+      updateExchangeRateTable(db);
+    }, process.env.EXCHANGE_UPDATE_INTERVAL_MILLI || constants.EXCHANGE_UPDATE_INTERVAL_MILLI);
   });
-// .then(function () {
-//   updateExchangeRateTable(db);
-// });

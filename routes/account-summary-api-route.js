@@ -47,16 +47,13 @@ module.exports = function (app) {
       // res.json(response);
       return;
     }
-    console.log("+++++++ acc-summ 1 ++++++++");
     // get account for the sessionUUID
     (async () => {
-      console.log("+++++++ acc-summ 2 ++++++++");
       let dbUsers = await db.Account.findAll({
         where: {
           sessionUUID: sessionUUID,
         },
       });
-      console.log("+++++++ acc-summ 3 ++++++++");
       if (dbUsers == null || dbUsers.length != 1) {
         response = { status: "ERROR", message: "ERROR!! SessionUUID is not found!", sessionUUID: sessionUUID };
         res.redirect("/");
@@ -102,12 +99,10 @@ module.exports = function (app) {
         return;
       }
       // update the account and set new transaction time
-      console.log("+++++++ acc-summ 4 ++++++++");
       dbUsers = await db.Account.update(
         { transactionTime: xactionTime },
         { where: { sessionUUID: sessionUUID }, returning: true, plain: true }
       );
-      console.log("+++++++ acc-summ 5 ++++++++");
       // now get the positions for the user
       let dbPositions = await db.Position.findAll({
         where: {
@@ -115,7 +110,6 @@ module.exports = function (app) {
         },
         order: [["currencyCode", "ASC"]],
       });
-      console.log("+++++++ acc-summ 6 ++++++++");
       response = { status: "OK", sessionUUID: sessionUUID, message: "Account Summary" };
       let curr = currencies[baseCurrency];
       let baseCurrencyObj = {
@@ -135,9 +129,7 @@ module.exports = function (app) {
       let rates = [];
       let ratesObj = [];
       // get rates
-      console.log("+++++++ acc-summ 7 ++++++++");
       let dbRates = await db.ExchangeRate.findAll({ where: { baseCurrencyCode: baseCurrency } });
-      console.log("+++++++ acc-summ 8 ++++++++");
       if (dbRates != null && dbRates.length != 0) {
         for (let index = 0; index < dbRates.length; index++) {
           let rate = dbRates[index];
@@ -155,7 +147,6 @@ module.exports = function (app) {
         }
       }
       summary["rates"] = rates;
-
 
       let positions = [];
       let available;
@@ -185,7 +176,6 @@ module.exports = function (app) {
       response["summary"] = summary;
       // calculate current account value based on current exhcnage rates
       let currentAccountValue = available;
-      console.log("+++++++ acc-summ 9 ++++++++");
       if (positions != null) {
         for (let index = 0; index < positions.length; index++) {
           let pos = positions[index];
@@ -197,14 +187,11 @@ module.exports = function (app) {
         summary["currentAccountValue"] = currentAccountValue;
       }
 
-      console.log("+++++++ acc-summ 10 ++++++++");
       res.render("account-summary", response);
-      console.log("+++++++ acc-summ 11 ++++++++");
       console.log(response);
       console.log(positions);
       console.log(rates);
       // res.json(response);
     })();
-    console.log("+++++++ acc-summ 12 ++++++++");
   });
 };
