@@ -1,0 +1,44 @@
+#account-summary {
+    height: 100vh;
+    background-color: black;
+    padding-top: 5%;
+}
+
+.account-module {
+    display: block;
+    padding: 25px;
+    margin: auto;
+    height: 85vh;
+    width: 85vw;
+}
+
+.account-sum {
+    background-color: #161616;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    padding-left: 50px;
+    padding-right: 50px;
+    text-align: center;
+    color: white;
+}
+
+.positions-div {
+    background-color: #161616;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 50px;
+    padding-right: 50px;
+    margin-top: 30px;
+    text-align: center;
+    color: white;
+}
+
+.navbar {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 25px;
+    padding-right: 25px;
+    background-color: #161616;
+    color: #10af4d;
+    margin-bottom: 30px;
+}
