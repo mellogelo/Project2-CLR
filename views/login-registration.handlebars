@@ -55,10 +55,9 @@
               </div>
               <select class="custom-select form-control" id="base-currency-select">
                 <option selected>Choose...</option>
-                {{debug}}
                 {{#each baseCurrencies}}
                 <option value="{{this.code}}">{{this.code}} - {{this.country}} {{this.name}}
-                  &#x{{this.symbolUnicodeHex}}</option>
+                  &#x{{this.symbolUnicodeHex}};</option>
                 {{/each}}
               </select>
             </div>

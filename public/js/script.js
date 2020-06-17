@@ -118,8 +118,8 @@ registerationForm.addEventListener("submit", function (event) {
       fnameEl.focus();
       return;
     }
-    var unameElement = document.getElementById("login-email");
-    unameElement.value = emailString;
+    var emailElement = document.getElementById("login-email");
+    emailElement.value = emailString;
     document.getElementById("login-password").focus();
     errorEl.innerHTML = `${emailString} successfully registered!!. Please log in`;
   });
@@ -133,18 +133,18 @@ registerationForm.addEventListener("submit", function (event) {
 loginForm.addEventListener("submit", function (event) {
   event.preventDefault();
   // check the inputs to make sure the entry is valid
-  var unameElement = document.getElementById("login-email");
+  var emailElement = document.getElementById("login-email");
   var pwdElement = document.getElementById("login-password");
   var errorEl = document.getElementById("login-error-message");
 
-  if (unameElement === null || pwdElement == null) return;
+  if (emailElement === null || pwdElement == null) return;
   var inputString;
-  var userNameString, passwordString;
+  var emailString, passwordString;
   // check userName validity
-  if ((inputString = unameElement.value) == null || (userNameString = inputString.trim().toLowerCase()).length == 0) {
-    console.log("UserNameString = " + userNameString);
-    unameElement.value = "";
-    unameElement.focus();
+  if ((inputString = emailElement.value) == null || (emailString = inputString.trim().toLowerCase()).length == 0) {
+    console.log("UserNameString = " + emailString);
+    emailElement.value = "";
+    emailElement.focus();
     errorEl.innerHTML = "Invalid Username entry";
     return;
   }
@@ -155,33 +155,26 @@ loginForm.addEventListener("submit", function (event) {
     errorEl.innerHTML = "Invalid Password entry";
     return;
   }
-  console.log("UserName: " + userNameString + "\nPassword: " + passwordString);
-  var userData = getUserData(userNameString);
-  if (userData == null) {
-    errorEl.innerHTML = "<strong>" + userNameString + "</strong> not found";
-    unameElement.focus();
-    return;
-  }
-  // check if password matches with database password
-  if (passwordString.localeCompare(userData.password) != 0) {
-    var errStr = "Password mismatch for Username <strong>";
-    errStr += userNameString + "</strong>";
-    errorEl.innerHTML = errStr;
-    pwdElement.value = "";
-    pwdElement.focus();
-    return;
-  }
-  // at this point, user login is validated. Clear page and go to game page
-  console.log("UserID " + userNameString + " successfully logged in!!");
-
-  navigateToStartOfQuiz(userData);
-  // setSessionData(userData);
-  // var targetUrl = "./page2.html?";
-  // targetUrl += "userId=" + userData.userName;
-  // targetUrl += "&sessionId=" + userData.sessionId;
-  // targetUrl += "&sessionTime=" + userData.sessionTime;
-  // window.location.replace(targetUrl);
+  console.log(`Email:    ${emailString}`);
+  console.log(`Password: ${passwordString}`);
+  let loginData = { email: emailString, password: passwordString };
+  // send registration data and wait for response
+  $.ajax("/login", { type: "POST", data: loginData }).done(function (resp) {
+    console.log(resp);
+    if (resp.status !== "OK") {
+      errorEl.innerHTML = resp.message;
+      emailElement.focus();
+      return;
+    }
+    let sessionUUID = resp.sessionUUID;
+    // login successful. go to account summary
+    let accountSummaryData = { sessionUUID: sessionUUID };
+    console.log(`Calling /accountSummary`);
+    let redirectUrl = `/accountSummary?sessionUUID=${sessionUUID}`;
+    window.location.redirect(redirectUrl);
+    $.ajax("/accountSummary", { type: "POST", data: accountSummaryData }).done(function (resp) {
+      console.log(`Returned from accountSummary route`);
+      //console.log(resp);
+    });
+  });
 });
-// console.log(shuffleArray(Object.keys(HTML_QUESTIONS), 10));
-
-// loadAllUserData();

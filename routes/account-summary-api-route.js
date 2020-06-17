@@ -37,13 +37,14 @@ module.exports = function (app) {
    */
 
   app.post("/accountSummary", function (req, res) {
-    console.log(`Executing ${req.baseUrl} (${req.method}) using protocol ${req.protocol}`);
+    console.log(`Executing /accountSummary (${req.method}) using protocol ${req.protocol}`);
     // check sessionUUID and see if it is valid and "active"
     let sessionUUID = req.body.sessionUUID;
     let response = {};
     if (sessionUUID == null || sessionUUID === "") {
       response = { status: "ERROR", message: "ERROR!! No SessionUUID provided!" };
-      res.json(response);
+      res.redirect("/");
+      // res.json(response);
       return;
     }
     // get account for the sessionUUID
@@ -55,24 +56,46 @@ module.exports = function (app) {
       });
       if (dbUsers == null || dbUsers.length != 1) {
         response = { status: "ERROR", message: "ERROR!! SessionUUID is not found!", sessionUUID: sessionUUID };
-        res.json(response);
+        res.redirect("/");
+        // res.json(response);
         return;
       }
-      console.log(dbUsers);
+      // get currencies
+      let dbCurrencies = await db.Currency.findAll({});
+      if (dbCurrencies == null || dbCurrencies.length == 0) {
+        response = {
+          status: "ERROR",
+          message: "ERROR!! Cannot get currencies from database!",
+          sessionUUID: sessionUUID,
+        };
+        res.redirect("/");
+        // res.json(response);
+        return;
+      }
+      let currencies = {};
+      for (let index = 0; index < dbCurrencies.length; index++) {
+        let dbCurr = dbCurrencies[index];
+        currencies[dbCurr.code] = {
+          name: dbCurr.name,
+          country: dbCurr.country,
+          symbolUnicodeHex: dbCurr.symbolUnicodeHex,
+        };
+      }
       let dbUser = dbUsers[0];
       let dbXactionTime = dbUser.transactionTime;
       let accountUUID = dbUser.uuid;
       let baseCurrency = dbUser.baseCurrencyCode;
       let initialAmount = dbUser.initialAmount;
       let sessionTimoutMilli = process.env.SESSION_TIMEOUT_MILLI || constants.SESSION_TIMEOUT_MILLI;
+      let fullName = `${dbUser.firstName} ${dbUser.lastName}`;
       // check if action was within the timeout period
       if (dbXactionTime == null || dbXactionTime == "") dbXactionTime = Date.now();
       let xactionTime = Date.now();
       if (dbXactionTime + sessionTimoutMilli < xactionTime) {
-        response = { status: "ERROR", message: "ERROR!! Session timeout" , sessionUUID: sessionUUID };
+        response = { status: "ERROR", message: "ERROR!! Session timeout", sessionUUID: sessionUUID };
         // go back to login page
-        // res.redirect('/');
-        res.json(response);
+        res.redirect("/");
+        // res.json(response);
         return;
       }
       // update the account and set new transaction time
@@ -85,43 +108,90 @@ module.exports = function (app) {
         where: {
           accountUUID: accountUUID,
         },
+        order: [["currencyCode", "ASC"]],
       });
       response = { status: "OK", sessionUUID: sessionUUID, message: "Account Summary" };
-      let summary = { baseCurrency: baseCurrency, initialAmount: initialAmount, currentAccountValue: 0.0 };
-      let positions = {};
-      if (dbPositions != null && dbPositions.length != 0) {
-        let pos;
-        for (let index = 0; index < dbPositions.length; index++) {
-          pos = dbPositions[index];
-          positions[pos.currencyCode] = pos.amount;
-        }
-        summary["positions"] = positions;
-      }
-      let rates = {};
+      let curr = currencies[baseCurrency];
+      let baseCurrencyObj = {
+        code: baseCurrency,
+        name: curr.name,
+        country: curr.country,
+        symbolUnicodeHex: curr.symbolUnicodeHex,
+      };
+      let summary = {
+        fullName: fullName,
+        baseCurrency: baseCurrencyObj,
+        initialAmount: initialAmount,
+        currentAccountValue: 0.0,
+        available: 0.0,
+      };
+
+      let rates = [];
+      let ratesObj = [];
       // get rates
       let dbRates = await db.ExchangeRate.findAll({ where: { baseCurrencyCode: baseCurrency } });
       if (dbRates != null && dbRates.length != 0) {
         for (let index = 0; index < dbRates.length; index++) {
           let rate = dbRates[index];
-          rates[rate.targetCurrencyCode] = rate.rate;
+          let curr = currencies[rate.targetCurrencyCode];
+          ratesObj[rate.targetCurrencyCode] = parseFloat(rate.rate);
+          if (rate.targetCurrencyCode !== baseCurrency) {
+            rates.push({
+              code: rate.targetCurrencyCode,
+              rate: parseFloat(rate.rate),
+              name: curr.name,
+              country: curr.country,
+              symbolUnicodeHex: curr.symbolUnicodeHex,
+            });
+          }
         }
       }
       summary["rates"] = rates;
+
+      let positions = [];
+      let available;
+      if (dbPositions != null && dbPositions.length != 0) {
+        let pos, amount;
+        for (let index = 0; index < dbPositions.length; index++) {
+          pos = dbPositions[index];
+          amount = parseFloat(pos.amount);
+          let curr = currencies[pos.currencyCode];
+          if (pos.currencyCode === baseCurrency) {
+            available = amount;
+            summary["available"] = amount;
+          } else {
+            let position = {
+              code: pos.currencyCode,
+              amount: amount,
+              rate: ratesObj[pos.currencyCode],
+              name: curr.name,
+              country: curr.country,
+              symbolUnicodeHex: curr.symbolUnicodeHex,
+            };
+            positions.push(position);
+          }
+        }
+        summary["positions"] = positions;
+      }
       response["summary"] = summary;
       // calculate current account value based on current exhcnage rates
-      let currentAccountValue = 0.0;
+      let currentAccountValue = available;
       if (positions != null) {
-        let codes = Object.keys(positions);
-        for (let index = 0; index < codes.length; index++) {
-          let code = codes[index];
-          let amount = positions[code];
-          let exchange = rates[code];
-          let value = amount / exchange;
-          currentAccountValue += value;
+        for (let index = 0; index < positions.length; index++) {
+          let pos = positions[index];
+          let code = pos.code;
+          let amount = pos.amount;
+          let exchange = ratesObj[code];
+          currentAccountValue += amount / exchange;
         }
         summary["currentAccountValue"] = currentAccountValue;
       }
-      res.json(response);
+
+      res.render("account-summary", response);
+      // console.log(response);
+      // console.log(positions);
+      // console.log(rates);
+      // res.json(response);
     })();
   });
 };
