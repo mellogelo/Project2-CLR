@@ -37,6 +37,22 @@
     box-shadow:0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
 }
 
+.buy {
+    background-color: #161616;
+    margin-top: 30px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 50px;
+    padding-right: 50px;
+    text-align: center;
+    color: white;
+    box-shadow:0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.buy h6 {
+    margin-bottom: 10px;
+}
+
 .navbar {
     padding-top: 10px;
     padding-bottom: 10px;
