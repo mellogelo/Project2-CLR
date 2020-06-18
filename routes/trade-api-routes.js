@@ -148,6 +148,15 @@ module.exports = function (app) {
         message = `Updated Position for ${currencyCode} in the amount of ${updateAmount}`;
       }
 
+      // update the base currency with the baseCurrencyBalance
+      let data = {amount:baseCurrencyBalance};
+      let whereClause = {accountUUID:accountUUID,currencyCode:baseCurrency};
+      let dbResult = await db.Position.update(data,{where:whereClause});
+      console.log("\n\nUpdated Base Currency Position:");
+      console.log(`Original Value:     ${positionAmount}`);
+      console.log(`New Value:          ${baseCurrencyBalance}`);
+      console.log(`Base Currency Code: ${baseCurrency}`);
+
       console.log(message);
       res.json({ status: "OK", message });
     })();
