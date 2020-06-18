@@ -187,7 +187,7 @@ module.exports = function (app) {
         summary["currentAccountValue"] = currentAccountValue;
       }
 
-      res.render("account-summary", response);
+      res.render("account-summary-new", response);
       // console.log(response);
       // console.log(positions);
       // console.log(rates);
