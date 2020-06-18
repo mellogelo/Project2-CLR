@@ -19,12 +19,13 @@
   <body>
     <section id="account-summary">
         <div class="account-module">
-
+            <!------------------- NAVBAR ------------------->
             <nav class="navbar">
                 <a class="navbar-brand" href="#">
                   <img src="imgs/trade-forex.svg" width="75" height="auto" class="d-inline-block align-right" alt="" loading="lazy">
                 </a>
                 <h3>Joe Doe Account</h3>
+                <h3>Base Currency: USD</h3>
                 <img src="https://image.flaticon.com/icons/png/512/272/272075.png" width="50" height="auto" class="d-inline-block align-center" alt="" loading="lazy">
               </nav>
 
@@ -33,8 +34,8 @@
                 <!------------------- ACCOUNT SUMMARY ------------------->
                 <div class="col">
                   <div class="account-sum">
-                    <p>Base Currency</p>
-                    <h3>USD &#x24;</h3>
+                    <p>Account Value</p>
+                    <h3 id="acc-val">$5,000</h3>
                   </div>
                 </div>
                 <div class="col">
@@ -51,6 +52,39 @@
                 </div>
             </div>
 
+            <!------------------- BUY ------------------->
+            <div class="buy">
+                <h6>Select Currency to buy and enter the amount of Base currency to use in purchase</h6>
+                <div class="row">
+                    <div class="col">
+                        <div class="currency-code">
+                            
+                            <label for="acct-summ-currency-dropdown" style="font-weight: bold;">Currency Code</label>
+                        <select id="acct-summ-currency-dropdown">
+                          <option selected>Choose...</option>
+                          <option>CNY</option>
+                          <option>NGN @ 387.4637949</option>
+                          <option>PHP</option>
+                          <option>MXP</option>
+                          <option>TRY</option>
+                        </select>
+                        </div>
+                        
+                    </div>
+                    <div class="col">
+                        <div class="amount-buy">
+                            <div>
+                                <label for="acct-summ-buy-amount" style="font-weight: bold;">Amount</label>
+                                <input type="number" id="acct-summ-buy-amount" />
+                                <button class="btn btn-success acct-summ-buy-btn" type="button" id="acct-summ-buy-btn">
+                                  Buy
+                                </button>
+                              </div>
+                        </div>
+                    </div>
+                  </div>
+            </div>
+            <!------------------- POSITIONS ------------------->
             <div class="positions">
                 <div class="positions-div">
                     <h5>Positions:</h5>
@@ -86,21 +120,12 @@
                                 </td>
                               </tr>
                             </tbody>
-
-                 
-
-
                           </table>
                         </div>
                     </div>
-
-                </div>
-                
+                </div>  
             </div>
-
-
         </div>
-           
     </section>
 
  
