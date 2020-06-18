@@ -20,7 +20,7 @@ module.exports = function (app) {
    *   amount of base currency left, it will result in error
    */
   app.post("/trade/buy", function (req, res) {
-    console.log(`Executing ${req.baseUrl} (${req.method}) using protocol ${req.protocol}`);
+    console.log(`\n\nExecuting ${req.baseUrl} (${req.method}) using protocol ${req.protocol}`);
     // check sessionUUID and see if it is valid and "active"
     let sessionUUID = req.body.sessionUUID;
     let currencyCode = req.body.currencyCode;
@@ -41,6 +41,10 @@ module.exports = function (app) {
       res.json(response);
       return;
     }
+    console.log("\n\nParameters:");
+    console.log(`\tSessionUUID:   ${sessionUUID}`);
+    console.log(`\tCurrency Code: ${currencyCode}`);
+    console.log(`\tAmount:        ${tradeAmount}`);
     (async () => {
       //get the account information and check session time
       let dbUsers = await db.Account.findAll({
@@ -77,7 +81,7 @@ module.exports = function (app) {
       );
 
       // now check if user has enough of base currency in positions
-      let positions = await db.Position.findAll({ where: { accountUUID: accountUUID } });
+      let positions = await db.Position.findAll({ where: { accountUUID: accountUUID, currencyCode: baseCurrency } });
       if (positions == null || positions.length < 1) {
         response = {
           status: "ERROR",
@@ -87,8 +91,37 @@ module.exports = function (app) {
         res.json(response);
         return;
       }
-      console.log(positions[0].dataValues);
-      res.json(positions);
+
+      let positionAmount = 0.0;
+      for (let index = 0; index < positions.length; index++) {
+        positionAmount += parseFloat(positions[index].amount);
+      }
+      if (positionAmount < tradeAmount) {
+        let message = `You have exceeded your balance of ${positionAmount.toFixed(2)}`;
+        res.json({ status: "ERROR", message });
+        return;
+      }
+      // get exchange rate for currency based on base currency
+      // get Exchange rate for currency using baseCurrency
+      let dbRates = await db.ExchangeRate.findAll({
+        where: { baseCurrencyCode: baseCurrency, targetCurrencyCode: currencyCode },
+      });
+      if (dbRates == null || dbRates.length == 0) {
+        res.json({
+          status: "ERROR",
+          message: `Unable to get exchange rate for ${currencyCode} using base currency ${baseCurrency}`,
+        });
+        return;
+      }
+      let exchageRate = dbRates[0].rate;
+      let purchasedAmount = parseFloat(exchageRate) * parseFloat(tradeAmount);
+
+      // check if there is currency code in the position table for this user. If not, create. If so, update the table
+      
+
+      let message = `Your position for ${baseCurrency} is ${positionAmount.toFixed(2)}`;
+      console.log(message);
+      res.json({ status: "ERROR", message });
     })();
   });
 
@@ -217,7 +250,9 @@ module.exports = function (app) {
       let dbResult = await db.Position.update(updateData, {
         where: { accountUUID: accountUUID, currencyCode: baseCurrency },
       });
-      console.log(`\n\nUpdated Base Currency Position for user  ${dbUser.firstName} ${dbUser.lastName} (${dbUser.email}):`);
+      console.log(
+        `\n\nUpdated Base Currency Position for user  ${dbUser.firstName} ${dbUser.lastName} (${dbUser.email}):`
+      );
       console.log(`\tCurrencyCode: ${currencyCode}`);
       console.log(`\tOld Value: ${dbPositions[0].amount}`);
       console.log(`\tNew Value: ${balance}`);

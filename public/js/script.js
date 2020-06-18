@@ -1,7 +1,11 @@
 /* The follwoing Web Technology - HTML questions come from
 https://www.avatto.com/computer-science/test/mcqs/web-technology/html/162/1.html
 */
-
+/*
+  To use modal triggered in Javascript, see: https://www.w3schools.com/bootstrap/bootstrap_ref_js_modal.asp
+  To have moal block window:
+    https://www.tutorialrepublic.com/faq/how-to-prevent-bootstrap-modal-from-closing-when-clicking-outside.php
+*/
 var userName = "";
 var loginButton = document.getElementById("login-button");
 var registerButton = document.getElementById("register-button");
@@ -20,14 +24,56 @@ function clearRegistrationForm() {
   document.getElementById("firstname").focus();
 }
 
+$("#acct-summ-buy-btn").click(function (event) {
+  event.preventDefault();
+
+  let buyCurrencySelectEl = $("#acct-summ-currency-dropdown");
+  let messageEl = $("#account-summary-message");
+  let buyAmountEl = $("#acct-summ-buy-amount");
+  let currencyCode = buyCurrencySelectEl.val();
+
+  messageEl.text("");
+
+  if (currencyCode === "Choose...") {
+    messageEl.text("Select Currency to buy");
+    buyCurrencySelectEl.focus();
+    return;
+  }
+  let inputVal = buyAmountEl.val();
+  if (inputVal == null || (inputVal = inputVal.trim()).length == 0 || isNaN(inputVal)) {
+    messageEl.text("Invalid Amount value");
+    buyAmountEl.focus();
+    buyAmountEl.select();
+    return;
+  }
+  let buyAmount = parseFloat(inputVal);
+  let sessionUUID = localStorage.getItem(SESSION_UUID_STORAGE_KEY);
+  if (sessionUUID == null || sessionUUID == "") {
+    messageEl.text("Invalid Session. sessionUUID not found");
+    return;
+  }
+  let buyData = { sessionUUID: sessionUUID, currencyCode: currencyCode, amount: buyAmount };
+  // send POST request
+  let url = '/trade/buy';
+  $.ajax(url, { type: "POST", data: buyData }).then(function (resp) {
+    if (resp.status === "ERROR") {
+      messageEl.text(resp.message);
+      return;
+    }
+    console.log(resp);
+    // reload the page to refresh the summary
+    location.reload();
+  });
+});
+
 $(".btn-sell").click(function (event) {
   event.preventDefault();
   console.log("Sell button clicked");
   let code = $(this).data("code");
   let inpId = `#pos-inp-${code}`;
   let amount = $(inpId).val();
-  let messageEl = $('#account-summary-message');
-  messageEl.text('');
+  let messageEl = $("#account-summary-message");
+  messageEl.text("");
   if (amount == null || (amount = amount.trim()).length == 0 || isNaN(amount)) {
     $(inpId).val("");
     $(inpId).focus();
@@ -39,7 +85,7 @@ $(".btn-sell").click(function (event) {
   let sendData = { sessionUUID: sessionUUID, currencyCode: code, amount: amount };
   // send POST request
   $.ajax(url, { type: "POST", data: sendData }).then(function (resp) {
-    if (resp.status === 'ERROR'){
+    if (resp.status === "ERROR") {
       messageEl.text(resp.message);
       return;
     }
