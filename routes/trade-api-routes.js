@@ -101,7 +101,9 @@ module.exports = function (app) {
         res.json({ status: "ERROR", message });
         return;
       }
-      // get exchange rate for currency based on base currency
+
+      let baseCurrencyBalance = positionAmount - tradeAmount;
+      if (baseCurrencyBalance < 0.01) baseCurrencyBalance = 0.0;
       // get Exchange rate for currency using baseCurrency
       let dbRates = await db.ExchangeRate.findAll({
         where: { baseCurrencyCode: baseCurrency, targetCurrencyCode: currencyCode },
@@ -117,11 +119,37 @@ module.exports = function (app) {
       let purchasedAmount = parseFloat(exchageRate) * parseFloat(tradeAmount);
 
       // check if there is currency code in the position table for this user. If not, create. If so, update the table
-      
+      let dbPositions = await db.Position.findAll({ where: { accountUUID: accountUUID, currencyCode: currencyCode } });
+      let message;
+      if (dbPositions == null || dbPositions.length == 0) {
+        // there is no position for the currency. This is a new position. So insert a new row
+        let data = {
+          amount: purchasedAmount,
+          accountUUID: accountUUID,
+          currencyCode: currencyCode,
+        };
+        let dbResult = await db.Position.create(data);
+        console.log("\n\nInserted row into positions Table:");
+        console.log(data);
+        console.log("\n\n");
+        message = `Inserted Position for ${currencyCode} in the amount of ${purchasedAmount}`;
+      } else {
+        // there is already a position for this currency. get the value, add the purchased amount and update it
+        let updateAmount = parseFloat(dbPositions[0].amount) + purchasedAmount;
+        let data = { amount: updateAmount };
+        let whereClause = { accountUUID: accountUUID, currencyCode: currencyCode };
+        let dbResult = await db.Position.update(data, { where: whereClause });
+        console.log("\nUpdated row in positions Table:");
+        console.log(`\tCurrency Code:    ${currencyCode}`);
+        console.log(`\tOld Amount:       ${dbPositions[0].amount}`);
+        console.log(`\tPurchased Amount: ${purchasedAmount}`);
+        console.log(`\tUpdated Amount:   ${updateAmount}`);
+        console.log("\n\n");
+        message = `Updated Position for ${currencyCode} in the amount of ${updateAmount}`;
+      }
 
-      let message = `Your position for ${baseCurrency} is ${positionAmount.toFixed(2)}`;
       console.log(message);
-      res.json({ status: "ERROR", message });
+      res.json({ status: "OK", message });
     })();
   });
 
