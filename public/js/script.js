@@ -54,13 +54,12 @@ $("#acct-summ-buy-btn").click(function (event) {
   }
   let buyData = { sessionUUID: sessionUUID, currencyCode: currencyCode, amount: buyAmount };
   // send POST request
-  let url = '/trade/buy';
+  let url = "/trade/buy";
   $.ajax(url, { type: "POST", data: buyData }).then(function (resp) {
     if (resp.status === "ERROR") {
       messageEl.text(resp.message);
       return;
     }
-    console.log(resp);
     // reload the page to refresh the summary
     location.reload();
   });
@@ -68,7 +67,6 @@ $("#acct-summ-buy-btn").click(function (event) {
 
 $(".btn-sell").click(function (event) {
   event.preventDefault();
-  console.log("Sell button clicked");
   let code = $(this).data("code");
   let inpId = `#pos-inp-${code}`;
   let amount = $(inpId).val();
@@ -89,7 +87,6 @@ $(".btn-sell").click(function (event) {
       messageEl.text(resp.message);
       return;
     }
-    console.log(resp);
     // reload the page to refresh the summary
     location.reload();
   });
@@ -103,7 +100,6 @@ $(".btn-sell").click(function (event) {
 if (registerationForm)
   registerationForm.addEventListener("submit", function (event) {
     event.preventDefault();
-    console.log("Register button clicked");
     // check inputs
     var svalue;
     var fnameEl = document.getElementById("firstname");
@@ -114,7 +110,6 @@ if (registerationForm)
     var errorEl = document.getElementById("registration-error-message");
     var baseCurrencySelectEl = $("#base-currency-select");
 
-    console.log("\n\n\nBase Currency Select Value ==> " + baseCurrencySelectEl.val());
     var fname, lname, pwd, pwd2, emailString, errText;
 
     errorEl.innerHTML = "";
@@ -186,11 +181,9 @@ if (registerationForm)
       confirmPassword: pwd2,
       baseCurrencyCode: currencyCode,
     };
-    console.log(registerData);
     //
     // send registration data and wait for response
     $.ajax("/register", { type: "POST", data: registerData }).done(function (resp) {
-      console.log(resp);
       if (resp.status !== "OK") {
         errorEl.innerHTML = resp.message;
         fnameEl.focus();
@@ -221,7 +214,6 @@ if (loginForm)
     var emailString, passwordString;
     // check userName validity
     if ((inputString = emailElement.value) == null || (emailString = inputString.trim().toLowerCase()).length == 0) {
-      console.log("UserNameString = " + emailString);
       emailElement.value = "";
       emailElement.focus();
       errorEl.innerHTML = "Invalid Username entry";
@@ -234,12 +226,9 @@ if (loginForm)
       errorEl.innerHTML = "Invalid Password entry";
       return;
     }
-    console.log(`Email:    ${emailString}`);
-    console.log(`Password: ${passwordString}`);
     let loginData = { email: emailString, password: passwordString };
     // send registration data and wait for response
     $.ajax("/login", { type: "POST", data: loginData }).done(function (resp) {
-      console.log(resp);
       if (resp.status !== "OK") {
         errorEl.innerHTML = resp.message;
         emailElement.focus();
@@ -248,16 +237,18 @@ if (loginForm)
       let sessionUUID = resp.sessionUUID;
       // login successful. go to account summary
       let accountSummaryData = { sessionUUID: sessionUUID };
-      console.log(`Calling /accountSummary`);
       let redirectUrl = `/accountSummary?sessionUUID=${sessionUUID}`;
       location.replace(redirectUrl);
       // save sessionUUID into localStorage
       localStorage.setItem(SESSION_UUID_STORAGE_KEY, sessionUUID);
       let storedUUID = localStorage.getItem(SESSION_UUID_STORAGE_KEY);
-      console.log(`Saved sessionUUID into localStorage: ${storedUUID}`);
-      // $.ajax("/accountSummary", { type: "POST", data: accountSummaryData }).done(function (resp) {
-      //   console.log(`Returned from accountSummary route`);
-      //   //console.log(resp);
-      // });
     });
   });
+
+if ($("#logoff-modal-confirm-btn")) {
+  $("#logoff-modal-confirm-btn").click(function (event) {
+    event.preventDefault();
+    localStorage.removeItem(SESSION_UUID_STORAGE_KEY);
+    location.replace('/');
+  });
+}

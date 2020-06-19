@@ -18,49 +18,42 @@ module.exports = function (app) {
   // - email
   // - password (clear)
   app.post("/login", function (req, res) {
-    console.log(`Executing /login (${req.method}) using protocol ${req.protocol}`);
+    // console.log(`Executing /login (${req.method}) using protocol ${req.protocol}`);
     let email = req.body.email;
     let password = req.body.password;
     let response = { status: "OK", message: "Successfully logged in" };
 
     // check of user is in account database
     let sessionUUID = utilities.generateUUID();
-    console.log("+++++++ login 1 ++++++++");
     db.Account.findAll({ where: { email: email } })
       .then(function (accounts) {
-        console.log("+++++++ login 2 ++++++++");
         if (accounts == null || accounts.length != 1) throw new Error("No such account");
         if (accounts[0].dataValues.password != password) throw new Error(`Password mis-match`);
         // update account with new Session ID and update lastLogin and last Transaction
         let sessionTime = Date.now();
-        console.log(accounts[0].dataValues);
-        console.log("+++++++ login 3 ++++++++");
+        // console.log(accounts[0].dataValues);
         db.Account.update(
           { sessionUUID: sessionUUID, transactionTime: sessionTime, lastLoginTime: sessionTime },
           { where: { email: email }, returning: true, plain: true }
         )
           .then(function (account) {
-            console.log(account);
+            // console.log(account);
             if (account == null) throw new Error("Unable to update database");
-            console.log("+++++++ login 4 ++++++++");
             response = { status: "OK", message: "Login successful", sessionUUID: sessionUUID };
             res.json(response);
           })
           .catch(function (error) {
-            console.log("+++++++ login 5 ++++++++");
-            console.log(error);
+            // console.log(error);
             response = { status: "ERROR", message: error.message };
             res.json(response);
           });
       })
       .catch(function (error) {
-        console.log("+++++++ login 6 ++++++++");
-        console.log(error);
+        // console.log(error);
         response = { status: "ERROR", message: error.message };
         res.json(response);
       });
-      console.log("+++++++ login 7 ++++++++");
-    });
+  });
 
   // Registeration route. If successful, will return object containing
   // - status : OK
@@ -79,12 +72,12 @@ module.exports = function (app) {
     let baseCurrencyCode = req.body.baseCurrencyCode;
     let confirmPassword = req.body.confirmPassword;
 
-    console.log(`First Name:       ${firstName}`);
-    console.log(`Last Name:        ${lastName}`);
-    console.log(`Email:            ${email}`);
-    console.log(`Password:         ${password}`);
-    console.log(`Confirm Password: ${confirmPassword}`);
-    console.log(`Base Currency:    ${baseCurrencyCode}`);
+    // console.log(`First Name:       ${firstName}`);
+    // console.log(`Last Name:        ${lastName}`);
+    // console.log(`Email:            ${email}`);
+    // console.log(`Password:         ${password}`);
+    // console.log(`Confirm Password: ${confirmPassword}`);
+    // console.log(`Base Currency:    ${baseCurrencyCode}`);
 
     if (baseCurrencyCode == null || baseCurrencyCode === "") baseCurrencyCode = "USD";
 
@@ -162,7 +155,7 @@ module.exports = function (app) {
                         return;
                       })
                       .catch(function (error) {
-                        console.log(error);
+                        // console.log(error);
                         response["status"] = "ERROR";
                         response["message"] = `Database error. Cannot set up initial position for ${email}`;
                         res.json(response);
@@ -170,7 +163,7 @@ module.exports = function (app) {
                       });
                   })
                   .catch(function (error) {
-                    console.log(error);
+                    // console.log(error);
                     response["status"] = "ERROR";
                     response["message"] = `Database error. Cannot create account for ${email}`;
                     res.json(response);
@@ -179,7 +172,7 @@ module.exports = function (app) {
               }
             })
             .catch(function (error) {
-              console.log(error);
+              // console.log(error);
               response["status"] = "ERROR";
               response["message"] = `Database error. Cannot create account for ${email}`;
               res.json(response);
@@ -188,7 +181,7 @@ module.exports = function (app) {
         }
       })
       .catch(function (error) {
-        console.log(error);
+        // console.log(error);
         response["status"] = "ERROR";
         response["message"] = `Database error. Cannot create account for ${email}`;
         res.json(response);

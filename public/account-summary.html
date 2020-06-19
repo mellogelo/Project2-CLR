@@ -25,7 +25,20 @@
         <div class="row justify-content-center">
           <h2>Chikeobi Njaka Account Summary</h2>
         </div>
-        <hr style="color: white;" />
+        <div class="row justify-content-end">
+          <div class="col-md-2">
+            <!-- Button HTML (to Trigger Modal) -->
+            <a
+              href="#logoff-modal"
+              style="color: red; font-weight: bold; margin: 0px;"
+              role="button"
+              class="btn btn-sm btn-link"
+              data-toggle="modal"
+              >Exit Application</a
+            >
+          </div>
+        </div>
+        <hr style="color: white; margin-top: 0px;" />
         <div class="row" id="container-row">
           <!--Left Half of the screen-->
           <div class="col-md-6">
@@ -115,14 +128,38 @@
           </div>
         </div>
       </div>
+      <!-- Logoff Modal -->
+      <div class="modal fade" id="logoff-modal">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header justify-content-around">
+              <h4 class="modal-title">Confirmation</h4>
+            </div>
+            <div class="modal-body">
+              <p>Do you really want to logoff the application?</p>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" id="logoff-modal-confirm-btn" class="btn btn-danger" data-dismiss="modal">
+                Confirm
+              </button>
+              <button type="button" id="logoff-modal-cancel-btn" class="btn btn-primary" data-dismiss="modal">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <!-- <script src="./assets/javascript/const.js"></script>
     <script src="./assets/javascript/quizQuestions.js"></script>
-    <script src="./assets/javascript/quizQuestions2.js"></script>
-    <script src="./assets/javascript/script.js"></script> -->
+    <script src="./assets/javascript/quizQuestions2.js"></script> -->
+    <script src="js/const.js"></script>
+    <script src="js/script.js"></script>
     <script
       src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
       integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
